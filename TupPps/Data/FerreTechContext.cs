@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using TupPps.Models;
 
-namespace TupPps.Models;
+namespace TupPps.Data;
 
 public partial class FerreTechContext : DbContext
 {
@@ -21,7 +22,7 @@ public partial class FerreTechContext : DbContext
 
     public virtual DbSet<Cliente> Clientes { get; set; }
 
-    public virtual DbSet<HisorialPrecio> HisorialPrecios { get; set; }
+    public virtual DbSet<HistorialPrecio> HisorialPrecios { get; set; }
 
     public virtual DbSet<Pedido> Pedidos { get; set; }
 
@@ -112,7 +113,7 @@ public partial class FerreTechContext : DbContext
                 .HasColumnName("telefono");
         });
 
-        modelBuilder.Entity<HisorialPrecio>(entity =>
+        modelBuilder.Entity<HistorialPrecio>(entity =>
         {
             entity
                 .HasNoKey()

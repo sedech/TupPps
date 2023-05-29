@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TupPps.Models;
 
-public partial class HisorialPrecio
+public partial class HistorialPrecio
 {
     public int? IdProducto { get; set; }
 
