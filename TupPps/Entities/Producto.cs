@@ -8,8 +8,9 @@ namespace TupPps.Entities
         public string Descripcion { get; set; }
         public int CantidadStock { get; set; }
         public float Precio { get; set; }
-        public Proveedor Proveedor { get; set; }
-        public Categoria Categoria { get; set; }
+        public int IdProveedor { get; set; }
+
+        public int IdCategoria { get; set; }
         // proveedor imagen
 
         public Producto(int idProducto, string descripcion, int cantidadStock, float precio, Proveedor proveedor, Categoria categoria)
@@ -20,6 +21,10 @@ namespace TupPps.Entities
             Precio = precio;
             Proveedor = proveedor;
             Categoria = categoria;
+        }
+
+        public Producto()
+        {
         }
 
         // Actualizar la cantidad de stock del producto
