@@ -6,7 +6,7 @@ namespace BussnessEntities
     public class AccountBe:EntityBaseBe
     {
       
-        public Int64 IdRole { get; set; }
+        public Int64 RoleId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
 

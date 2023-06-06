@@ -19,7 +19,7 @@ namespace DataModels.Configuration
             entityBuilder.Property(u => u.Email).IsRequired().HasMaxLength(250);
             entityBuilder.Property(u => u.WebSite).IsRequired().HasMaxLength(250);
 
-            entityBuilder.HasMany(u=>u.Products).WithOne(u=>u.Provider).HasForeignKey(u=>u.IdProvider).IsRequired();
+            entityBuilder.HasMany(u=>u.Products).WithOne(u=>u.Provider).HasForeignKey(u=>u.ProviderId).IsRequired();
         }
     }
 }

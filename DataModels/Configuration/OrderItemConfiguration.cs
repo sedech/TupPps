@@ -9,8 +9,8 @@ namespace DataModels.Configuration
         public OrderItemConfiguration(EntityTypeBuilder<OrderItem>entityBuilder) 
         {
           entityBuilder.HasKey(u=>u.Id);
-          entityBuilder.Property(u => u.IdProduct).IsRequired();
-          entityBuilder.Property(u => u.IdOrder).IsRequired();
+          entityBuilder.Property(u => u.ProductId).IsRequired();
+          entityBuilder.Property(u => u.OrderId).IsRequired();
           entityBuilder.Property(u => u.Quantity).IsRequired();
         }
     }

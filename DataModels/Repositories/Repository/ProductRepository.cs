@@ -40,7 +40,7 @@ namespace DataModels.Repositories.Repository
         {
             try
             {
-                var entity =await _context.Products.SingleOrDefaultAsync(u => u.Id == id);
+                var entity =await _context.Products.SingleOrDefaultAsync(u => u.Id == id && u.State==2);
                 if (entity == null)
                     throw new Exception("No existe producto para ese id");
                 entity.State = 2;

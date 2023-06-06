@@ -16,7 +16,7 @@ namespace DataModels.Configuration
             entityBuilder.Property(u => u.Name).IsRequired().HasMaxLength(250);
             entityBuilder.Property(u => u.Description).HasMaxLength(450);
 
-            entityBuilder.HasMany(u=> u.Products).WithOne(u => u.Category).HasForeignKey(u=>u.IdCategory).IsRequired();
+            entityBuilder.HasMany(u=> u.Products).WithOne(u => u.Category).HasForeignKey(u=>u.CategoryId).IsRequired();
         }
     }
 }

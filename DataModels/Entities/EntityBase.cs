@@ -7,7 +7,7 @@ namespace DataModels.Entities
 {
     public class EntityBase
     {
-        
+        [Key]
         public Int64 Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? FinalDate { get; set; }

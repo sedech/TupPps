@@ -36,7 +36,7 @@ namespace DataModels.Configuration
                 }
 
                 );
-            entityBuilder.HasMany(p=>p.Accounts).WithOne(p=>p.Role).HasForeignKey(p=>p.IdRole).IsRequired();
+            entityBuilder.HasMany(p=>p.Accounts).WithOne(p=>p.Role).HasForeignKey(p=>p.RoleId).IsRequired();
 
         }
     }

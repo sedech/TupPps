@@ -36,12 +36,12 @@ namespace DataModels.Migrations
                     b.Property<DateTime?>("FinalDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("IdRole")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -52,7 +52,7 @@ namespace DataModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdRole");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Accounts");
                 });
@@ -146,9 +146,6 @@ namespace DataModels.Migrations
                     b.Property<DateTime?>("FinalDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("IdProduct")
-                        .HasColumnType("bigint");
-
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
@@ -185,12 +182,6 @@ namespace DataModels.Migrations
                     b.Property<DateTime?>("FinalDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("IdAccount")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("IdCustomer")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("State")
                         .HasColumnType("int");
 
@@ -219,12 +210,6 @@ namespace DataModels.Migrations
 
                     b.Property<DateTime?>("FinalDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<long>("IdOrder")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("IdProduct")
-                        .HasColumnType("bigint");
 
                     b.Property<long>("OrderId")
                         .HasColumnType("bigint");
@@ -262,26 +247,18 @@ namespace DataModels.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("FinalDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdCategory")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdProvider")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("PricePurchase")
+                    b.Property<float?>("PricePurchase")
                         .HasColumnType("real");
 
-                    b.Property<float>("PriceSales")
+                    b.Property<float?>("PriceSales")
                         .HasColumnType("real");
 
                     b.Property<long>("ProviderId")
@@ -290,7 +267,7 @@ namespace DataModels.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
-                    b.Property<int>("Stock")
+                    b.Property<int?>("Stock")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -405,7 +382,7 @@ namespace DataModels.Migrations
                 {
                     b.HasOne("DataModels.Entities.Role", "Role")
                         .WithMany("Accounts")
-                        .HasForeignKey("IdRole")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

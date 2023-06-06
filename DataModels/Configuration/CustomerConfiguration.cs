@@ -21,7 +21,7 @@ namespace DataModels.Configuration
             entityBuilder.Property(u => u.Email).IsRequired().HasMaxLength(250);
 
 
-            entityBuilder.HasMany(u => u.Orders).WithOne(u => u.Customer).HasForeignKey(u => u.IdCustomer).IsRequired();
+            entityBuilder.HasMany(u => u.Orders).WithOne(u => u.Customer).HasForeignKey(u => u.CustomerId).IsRequired();
         }
     }
 }

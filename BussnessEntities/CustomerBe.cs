@@ -4,7 +4,7 @@ namespace BussnessEntities
 {
     public class CustomerBe:EntityBaseBe
     {
-        public Int64 IdAccount { get; set; }    
+        public Int64 AccountId { get; set; }    
         public int CUIT { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

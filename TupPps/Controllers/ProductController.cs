@@ -17,7 +17,7 @@ namespace TupPps.Controllers
         }
                                                    
         [HttpGet]
-        public async Task<IActionResult> GetAllProductAsync(int state, string name)
+        public async Task<IActionResult> GetAllProductAsync(int state = 1, string name="")
         {
             List<ProductBe> producto = await this._productService.GetAll(state,name);
             return Ok(producto);
@@ -42,6 +42,12 @@ namespace TupPps.Controllers
         {
              
             return Ok(await _productService.GetById(IdProduct));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductBe product)
+        {
+            return Ok(await _productService.Update(product));
         }
 
     }

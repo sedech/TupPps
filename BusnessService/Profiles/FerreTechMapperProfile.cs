@@ -11,7 +11,7 @@ namespace BusnessService.Profiles
 {
     public class FerreTechMapperProfile : Profile
     {
-        protected FerreTechMapperProfile()
+        public FerreTechMapperProfile()
         {
             CreateMap<Account, AccountBe>().ReverseMap();
             CreateMap<Category, CategoryBe>().ReverseMap();
