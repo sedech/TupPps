@@ -31,7 +31,6 @@ namespace DataModels.Repositories.Repository
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
@@ -45,8 +44,9 @@ namespace DataModels.Repositories.Repository
                     throw new Exception("No existe producto para ese id");
                 entity.State = 2;
                 entity.FinalDate = DateTime.Now;
-
-               await _context.SaveChangesAsync();
+                
+                _context.Products.Remove(entity);
+                 _context.SaveChanges();
                 return true;
             }
             catch (Exception e)

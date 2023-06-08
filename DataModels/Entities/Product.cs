@@ -1,9 +1,12 @@
 ﻿
 
+
+
 namespace DataModels.Entities
 {
     public class Product:EntityBase
     {
+        
 
         public Int64 ProviderId { get; set; }
         public Int64 CategoryId { get; set; }
