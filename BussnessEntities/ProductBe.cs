@@ -12,6 +12,8 @@ namespace BussnessEntities
         public int Stock { get; set; }
         public float PriceSales { get; set; }
         public float PricePurchase { get; set; }
+        public string Img { get; set; }
+        public string Brand { get; set; }
 
         public ProviderBe? Provider { get; set; }
         public CategoryBe? Category { get; set; } 

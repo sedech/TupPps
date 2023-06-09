@@ -15,6 +15,8 @@ namespace DataModels.Entities
         public int? Stock { get; set; }
         public float? PriceSales { get; set; }
         public float? PricePurchase { get; set; }
+        public string? Img { get; set; }
+        public string? Brand { get; set; }
 
         public Provider? Provider { get; set; }
         public Category? Category { get; set; } 

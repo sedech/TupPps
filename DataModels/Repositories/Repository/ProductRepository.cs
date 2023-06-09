@@ -39,12 +39,10 @@ namespace DataModels.Repositories.Repository
         {
             try
             {
-                var entity =await _context.Products.SingleOrDefaultAsync(u => u.Id == id && u.State==2);
+                var entity =await _context.Products.SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
                     throw new Exception("No existe producto para ese id");
-                entity.State = 2;
-                entity.FinalDate = DateTime.Now;
-                
+     
                 _context.Products.Remove(entity);
                  _context.SaveChanges();
                 return true;
