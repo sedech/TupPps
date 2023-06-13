@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusnessService.Service
+namespace BusnessService.IService
 {
     public interface IProductService
     {
-      
-        Task<Int64> Create(ProductBe entity);
-        Task<Boolean> Update(ProductBe entity);
-        Task<Boolean> Delete(int id);
+
+        Task<long> Create(ProductBe entity);
+        Task<bool> Update(ProductBe entity);
+        Task<bool> Delete(int id);
         Task<List<ProductBe>> GetAll(int state, string name);
         Task<ProductBe> GetById(int id);
 

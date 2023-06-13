@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusnessService.IService;
 using BussnessEntities;
 using DataModels.Entities;
 using DataModels.Repositories.IRepository;

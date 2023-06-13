@@ -20,6 +20,8 @@ namespace DataModels.Configuration
             entityBuilder.Property(u => u.Stock).IsRequired();
             entityBuilder.Property(u => u.PriceSales).IsRequired();
             entityBuilder.Property(u => u.PricePurchase).IsRequired();
+            entityBuilder.Property(u => u.Img).IsRequired();
+            entityBuilder.Property(u => u.Brand).IsRequired().HasMaxLength(250);
 
             entityBuilder.HasMany(u => u.HistoryPrices).WithOne(u => u.Product).HasForeignKey(u => u.ProductId).IsRequired();
 

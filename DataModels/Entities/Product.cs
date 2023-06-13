@@ -1,12 +1,9 @@
 ﻿
-
-
-
 namespace DataModels.Entities
 {
-    public class Product:EntityBase
+    public class Product : EntityBase
     {
-        
+
 
         public Int64 ProviderId { get; set; }
         public Int64 CategoryId { get; set; }
@@ -19,9 +16,9 @@ namespace DataModels.Entities
         public string? Brand { get; set; }
 
         public Provider? Provider { get; set; }
-        public Category? Category { get; set; } 
-        
+        public Category? Category { get; set; }
 
-        public List<HistoryPrice>? HistoryPrices { get; set;}
+
+        public List<HistoryPrice>? HistoryPrices { get; set; }
     }
 }

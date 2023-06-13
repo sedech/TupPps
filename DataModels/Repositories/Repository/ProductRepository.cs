@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataModels.Repositories.Repository
 {
-    public class ProductRepository:IProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly FerreTechContext _context;
         public ProductRepository(FerreTechContext context)
@@ -39,12 +39,12 @@ namespace DataModels.Repositories.Repository
         {
             try
             {
-                var entity =await _context.Products.SingleOrDefaultAsync(u => u.Id == id);
+                var entity = await _context.Products.SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
                     throw new Exception("No existe producto para ese id");
-     
+
                 _context.Products.Remove(entity);
-                 _context.SaveChanges();
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -65,7 +65,7 @@ namespace DataModels.Repositories.Repository
             try
             {
                 var entity = await _context.Products.SingleOrDefaultAsync(u => u.Id == id);
-            
+
                 return entity;
             }
             catch (Exception e)
@@ -84,7 +84,10 @@ namespace DataModels.Repositories.Repository
             prod.Name = entity.Name;
             prod.PricePurchase = entity.PricePurchase;
             prod.Description = entity.Description;
+            prod.Stock = entity.Stock;
             prod.PriceSales = entity.PriceSales;
+            prod.Img = entity.Img;
+            prod.Brand = entity.Brand;
 
             return true;
         }

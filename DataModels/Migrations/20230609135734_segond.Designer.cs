@@ -235,7 +235,7 @@ namespace DataModels.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("DataModels.Entities.Product", b =>
+            modelBuilder.Entity("DataModels.Entities.Customer", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -400,13 +400,13 @@ namespace DataModels.Migrations
 
             modelBuilder.Entity("DataModels.Entities.HistoryPrice", b =>
                 {
-                    b.HasOne("DataModels.Entities.Product", "Product")
+                    b.HasOne("DataModels.Entities.Customer", "Customer")
                         .WithMany("HistoryPrices")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("DataModels.Entities.Order", b =>
@@ -436,7 +436,7 @@ namespace DataModels.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataModels.Entities.Product", "Product")
+                    b.HasOne("DataModels.Entities.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -444,10 +444,10 @@ namespace DataModels.Migrations
 
                     b.Navigation("Order");
 
-                    b.Navigation("Product");
+                    b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("DataModels.Entities.Product", b =>
+            modelBuilder.Entity("DataModels.Entities.Customer", b =>
                 {
                     b.HasOne("DataModels.Entities.Category", "Category")
                         .WithMany("Products")
@@ -481,7 +481,7 @@ namespace DataModels.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("DataModels.Entities.Product", b =>
+            modelBuilder.Entity("DataModels.Entities.Customer", b =>
                 {
                     b.Navigation("HistoryPrices");
                 });

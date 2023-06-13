@@ -1,5 +1,5 @@
 ﻿
-using BusnessService.Service;
+using BusnessService.IService;
 using BussnessEntities;
 using Microsoft.AspNetCore.Mvc;
 
