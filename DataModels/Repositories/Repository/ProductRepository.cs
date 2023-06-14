@@ -87,7 +87,7 @@ namespace DataModels.Repositories.Repository
             prod.Stock = entity.Stock;
             prod.PriceSales = entity.PriceSales;
             prod.Img = entity.Img;
-            prod.Brand = entity.Brand;
+            
 
             return true;
         }

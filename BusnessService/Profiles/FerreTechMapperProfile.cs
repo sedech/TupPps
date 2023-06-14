@@ -20,7 +20,7 @@ namespace BusnessService.Profiles
             CreateMap<Order, OrderBe>().ReverseMap();
             CreateMap<OrderItem, OrderItemBe>().ReverseMap();
             CreateMap<Product, ProductBe>().ReverseMap();
-            CreateMap<Provider, ProviderBe>().ReverseMap();
+            CreateMap<Brand, BrandBe>().ReverseMap();
             CreateMap<Role, RoleBe>().ReverseMap();
          
         }

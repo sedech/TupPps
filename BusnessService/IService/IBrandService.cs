@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace BusnessService.IService
 {
-    public interface IProviderService
+    public interface IBrandService
     {
-        Task<long> Create(ProviderBe entity);
-        Task<bool> Update(ProviderBe entity);
-        Task<ProviderBe> GetById(int id);
+        Task<long> Create(BrandBe entity);
+        Task<bool> Update(BrandBe entity);
+        Task<BrandBe> GetById(int id);
     }
 }

@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace DataModels.Repositories.IRepository
 {
-    public interface IProviderRepository
+    public interface IOrderRepository
     {
-            Task<Int64> Create(Provider entity);
-            Task<Boolean> Update(Provider entity);
-            Task<Provider> GetById(int id);
+        Task<Int64> Create(Order entity);
+        Task<Boolean> Update(Order entity);
+        Task<Boolean> Delete(int id);
+        Task<Order> GetById(int id);
     }
 }

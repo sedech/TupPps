@@ -5,7 +5,7 @@ namespace DataModels.Entities
     {
 
 
-        public Int64 ProviderId { get; set; }
+        public Int64 BrandId { get; set; }
         public Int64 CategoryId { get; set; }
         public string? Name { get; set; }   
         public string? Description { get; set; }
@@ -13,9 +13,8 @@ namespace DataModels.Entities
         public float? PriceSales { get; set; }
         public float? PricePurchase { get; set; }
         public string? Img { get; set; }
-        public string? Brand { get; set; }
-
-        public Provider? Provider { get; set; }
+     
+        public Brand? Brand { get; set; }
         public Category? Category { get; set; }
 
 

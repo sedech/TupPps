@@ -11,31 +11,31 @@ using System.Threading.Tasks;
 
 namespace BusnessService.Service
 {
-    public class ProviderService : IProviderService
+    public class BrandService : IBrandService
     {
-           private readonly IProviderRepository _repo;
+           private readonly IBrandRepository _repo;
            private readonly IMapper _maapper;
 
-        public ProviderService(IProviderRepository repo, IMapper maapper)
+        public BrandService(IBrandRepository repo, IMapper maapper)
         {
             _repo = repo;
             _maapper = maapper;
         }
 
-        public async Task<Int64> Create(ProviderBe entity)
+        public async Task<Int64> Create(BrandBe entity)
         {
-            var result = _maapper.Map<Provider>(entity);
+            var result = _maapper.Map<Brand>(entity);
             return await _repo.Create(result);
         }
 
-        public async Task<ProviderBe> GetById(int id)
+        public async Task<BrandBe> GetById(int id)
         {
-            return _maapper.Map<ProviderBe>(await _repo.GetById(id));
+            return _maapper.Map<BrandBe>(await _repo.GetById(id));
         }
 
-        public async Task<bool> Update(ProviderBe entity)
+        public async Task<bool> Update(BrandBe entity)
         {
-            var result = _maapper.Map<Provider>(entity);
+            var result = _maapper.Map<Brand>(entity);
             return await _repo.Update(result);
 
         }

@@ -2,7 +2,6 @@
 using DataModels.Entities;
 using DataModels.Repositories.IRepository;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace DataModels.Repositories.Repository
 {
-    public class OrderItemRepository : IOrderItemRepository
+    public class OrderRepository : IOrderRepository 
     {
         private readonly FerreTechContext _context;
-        public OrderItemRepository(FerreTechContext context)
+        public OrderRepository(FerreTechContext context)
         {
             _context = context;
         }
 
-        public async Task<Int64> Create(OrderItem entity)
+        public async Task<Int64> Create(Order entity)
         {
             try
             {
@@ -40,11 +39,11 @@ namespace DataModels.Repositories.Repository
         {
             try
             {
-                var entity = await _context.OrderItems.SingleOrDefaultAsync(u => u.Id == id);
+                var entity = await _context.Orders.SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
-                    throw new Exception("No existe el item para ese id");
+                    throw new Exception("No existe el order para ese id");
 
-                _context.OrderItems.Remove(entity);
+                _context.Orders.Remove(entity);
                 _context.SaveChanges();
                 return true;
             }
@@ -55,12 +54,11 @@ namespace DataModels.Repositories.Repository
             }
         }
 
-      
-        public async Task<OrderItem> GetById(int id)
+        public async Task<Order> GetById(int id)
         {
             try
             {
-                var entity = await _context.OrderItems.SingleOrDefaultAsync(u => u.Id == id);
+                var entity = await _context.Orders.SingleOrDefaultAsync(u => u.Id == id);
 
                 return entity;
             }
@@ -71,18 +69,16 @@ namespace DataModels.Repositories.Repository
             }
         }
 
-        public async Task<bool> Update(OrderItem entity)
+        public async Task<bool> Update(Order entity)
         {
-            var item = await _context.OrderItems.FindAsync(entity.Id);
-            if (item == null)
-                throw new Exception("No se pudo actualizar este item");
-                item.ProductId = entity.ProductId;
-                item.OrderId = entity.OrderId;
-                item.Quantity = entity.Quantity;
+            var ord = await _context.Orders.FindAsync(entity.Id);
+            if (ord == null)
+                throw new Exception("No se pudo actualizar este order");
+                ord.CustomerId = entity.Id;
+                ord.AccountId = entity.Id;
+                ord.Total = entity.Total;
 
             return true;
         }
-
-
     }
 }

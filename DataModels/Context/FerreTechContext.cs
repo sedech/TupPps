@@ -33,7 +33,7 @@ namespace DataModels.Context
 
         public DbSet<Product> Products { get; set; }
 
-        public virtual DbSet<Provider> Providers { get; set; }
+        public virtual DbSet<Brand> Brands { get; set; }
 
         public virtual DbSet<Role> Roles { get; set; }
 

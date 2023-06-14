@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataModels.Repositories.Repository
 {
-    public class ProviderRepository : IProviderRepository
+    public class ProviderRepository : IBrandRepository
     {
         private readonly FerreTechContext _context;
 
@@ -19,7 +19,7 @@ namespace DataModels.Repositories.Repository
             _context = context;
         }
 
-        public async Task<Int64> Create(Provider entity)
+        public async Task<Int64> Create(Brand entity)
         {
             try
             {
@@ -36,11 +36,11 @@ namespace DataModels.Repositories.Repository
             }
         }
 
-        public async Task<Provider> GetById(int id)
+        public async Task<Brand> GetById(int id)
         {
             try
             {
-                var entity = await _context.Providers.SingleOrDefaultAsync(u => u.Id == id);
+                var entity = await _context.Brands.SingleOrDefaultAsync(u => u.Id == id);
 
                 return entity;
             }
@@ -52,16 +52,14 @@ namespace DataModels.Repositories.Repository
         }
 
 
-        public async Task<bool> Update(Provider entity)
+        public async Task<bool> Update(Brand entity)
         {
-            var provi = await _context.Providers.FindAsync(entity.Id);
-            if (provi==null)
-                throw new Exception("No se pudo actualizar el proveedor");
-            provi.CUIT = entity.CUIT;
-            provi.BusnessName = entity.BusnessName;
-            provi.Address = entity.Address;
-            provi.Email = entity.Email;
-            provi.WebSite = entity.WebSite;
+            var bran = await _context.Brands.FindAsync(entity.Id);
+            if (bran==null)
+                throw new Exception("No se pudo actualizar la marca");
+            
+            bran.Name = entity.Name;
+            bran.Logo = entity.Logo;
 
             return true;
         }
