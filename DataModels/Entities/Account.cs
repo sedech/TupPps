@@ -9,7 +9,7 @@ namespace DataModels.Entities
         public string Password { get; set; }
 
         public Role Role { get; set; }
-        //public List<Customer> Customers { get; set; }
+        
 
        
     }

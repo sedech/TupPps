@@ -7,7 +7,7 @@ namespace DataModels.Entities
 
         public Int64 ProviderId { get; set; }
         public Int64 CategoryId { get; set; }
-        public string? Name { get; set; }
+        public string? Name { get; set; }   
         public string? Description { get; set; }
         public int? Stock { get; set; }
         public float? PriceSales { get; set; }
