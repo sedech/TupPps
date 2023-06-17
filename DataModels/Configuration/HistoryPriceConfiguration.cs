@@ -13,6 +13,7 @@ namespace DataModels.Configuration
         public HistoryPriceConfiguration(EntityTypeBuilder<HistoryPrice>entityBuilder) 
         {
             entityBuilder.HasKey(u=> u.Id);
+            entityBuilder.Property(u => u.ProductId).IsRequired();
             entityBuilder.Property(u => u.Price).IsRequired();
 
         }

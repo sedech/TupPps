@@ -17,7 +17,7 @@ namespace DataModels.Configuration
             entityBuilder.Property(u => u.AccountId).IsRequired();
             entityBuilder.Property(u => u.Total).IsRequired();
 
-            entityBuilder.HasMany(u=>u.Items).WithOne(u => u.Order).HasForeignKey(u => u.OrderId).IsRequired();
+            entityBuilder.HasMany(u=>u.OrderItems).WithOne(u => u.Order).HasForeignKey(u => u.OrderId).IsRequired();
         }
     }
 }

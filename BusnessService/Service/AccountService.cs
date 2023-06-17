@@ -25,6 +25,7 @@ namespace BusnessService.Service
 
         public async Task<Int64> Create(AccountBe entity)
         {
+            entity.Password = "";
             var result = _maapper.Map<Account>(entity);
             return await _repo.Create(result);
         }
@@ -32,6 +33,12 @@ namespace BusnessService.Service
         public async Task<AccountBe> GetById(int id)
         {
             return _maapper.Map<AccountBe>(await _repo.GetById(id));
+        }
+
+        public async Task<AccountBe> Login(string userName, string userPass)
+        {
+            string passencryp = "";
+            return _maapper.Map<AccountBe>(await _repo.Login(userName, passencryp));
         }
 
         public async Task<bool> Update(AccountBe entity)

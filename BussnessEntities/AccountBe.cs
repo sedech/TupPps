@@ -11,7 +11,7 @@ namespace BussnessEntities
         public string Password { get; set; }
 
         public RoleBe Role { get; set; }
-        public List<CustomerBe> Customers { get; set; }
+        
 
        
     }

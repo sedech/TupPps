@@ -15,7 +15,7 @@ namespace BusnessService.Profiles
         {
             CreateMap<Account, AccountBe>().ReverseMap();
             CreateMap<Category, CategoryBe>().ReverseMap();
-            CreateMap<Customer, CustomerBe>().ReverseMap();
+            
             CreateMap<HistoryPrice, HistoryPriceBe>().ReverseMap();
             CreateMap<Order, OrderBe>().ReverseMap();
             CreateMap<OrderItem, OrderItemBe>().ReverseMap();

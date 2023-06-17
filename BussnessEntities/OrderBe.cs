@@ -7,7 +7,7 @@
         public Int64 AccountId { get; set; }
         public float Total { get; set; }
 
-        public CustomerBe Customer { get; set; }
+      
         public AccountBe Account { get; set; }
 
         public List<OrderItemBe> Items { get; set; }

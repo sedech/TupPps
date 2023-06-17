@@ -1,4 +1,5 @@
 ﻿using BussnessEntities;
+using DataModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace BusnessService.IService
         Task<long> Create(AccountBe entity);
         Task<bool> Update(AccountBe entity);
         Task<AccountBe> GetById(int id);
+        Task<AccountBe> Login(string userName, string userPass);
     }
 }
