@@ -13,6 +13,6 @@ namespace BusnessService.IService
         Task<long> Create(AccountBe entity);
         Task<bool> Update(AccountBe entity);
         Task<AccountBe> GetById(int id);
-        Task<AccountBe> Login(string userName, string userPass);
+        Task<AccountBe> Login(string UserName, string Password);
     }
 }

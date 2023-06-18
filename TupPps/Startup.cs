@@ -5,13 +5,15 @@ using DataModels.Context;
 using DataModels.Repositories.IRepository;
 using DataModels.Repositories.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 
 namespace TupPps
 {
     public static class Startup
     {
-        public static WebApplication InitializeApp(string[] args) 
+        public static WebApplication InitializeApp(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             configurationService(builder);
@@ -19,14 +21,18 @@ namespace TupPps
             Configure(app);
             return app;
         }
-        private static void configurationService(WebApplicationBuilder builder) 
+        private static void configurationService(WebApplicationBuilder builder)
         {
             builder.Services.AddControllers();
 
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
             builder.Services.AddScoped<IProductService, ProductService>();
-           
+
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
+            builder.Services.AddScoped<IAccountService, AccountService>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

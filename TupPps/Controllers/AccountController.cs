@@ -22,16 +22,17 @@ namespace TupPps.Controllers
         }
 
         [HttpGet]
-        [Route("getAccount/{IdAccount}")]
+        [Route("getAccountById/{IdAccount}")]
         public async Task<IActionResult> GetById(int IdAccount)
         {
             return Ok(await _accountService.GetById(IdAccount));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login(string userName, string userPass)
+        [Route("getAccountByLogin/{UserName}/{Password}")]
+        public async Task<IActionResult> Login(string UserName, string Password)
         {
-            return Ok(await _accountService.Login(userName, userPass));
+            return Ok(await _accountService.Login(UserName, Password));
         }
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] AccountBe account)

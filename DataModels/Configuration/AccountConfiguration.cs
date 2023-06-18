@@ -15,9 +15,7 @@ namespace DataModels.Configuration
             entityBuilder.HasKey(u => u.Id);
             entityBuilder.Property(u => u.UserName).IsRequired().HasMaxLength(250);
             entityBuilder.Property(u => u.Password).IsRequired().HasMaxLength(250);
-            
-            
-            //entityBuilder.HasMany(u => u.Customers).WithOne(u => u.Account).HasForeignKey(u=> u.IdAccount).IsRequired();
+          
         }
     }
 }

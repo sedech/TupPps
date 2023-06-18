@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusnessService.Encryption;
 using BusnessService.IService;
 using BussnessEntities;
 using DataModels.Entities;
@@ -25,7 +26,9 @@ namespace BusnessService.Service
 
         public async Task<Int64> Create(AccountBe entity)
         {
-            entity.Password = "";
+            string encryptedPassword = Encrypt.GetMD5(entity.Password);
+
+            entity.Password = encryptedPassword;
             var result = _maapper.Map<Account>(entity);
             return await _repo.Create(result);
         }
@@ -35,11 +38,17 @@ namespace BusnessService.Service
             return _maapper.Map<AccountBe>(await _repo.GetById(id));
         }
 
-        public async Task<AccountBe> Login(string userName, string userPass)
+        public async Task<AccountBe> Login(string UserName, string Password)
         {
-            string passencryp = "";
-            return _maapper.Map<AccountBe>(await _repo.Login(userName, passencryp));
+            string passencryp = Encrypt.GetMD5(Password);
+            AccountBe account = new AccountBe()
+            {
+                UserName = "juanito",
+                Password = "14567"
+            };
+            return _maapper.Map<AccountBe>(await _repo.Login(account.UserName, account.Password));
         }
+
 
         public async Task<bool> Update(AccountBe entity)
         {

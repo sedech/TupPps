@@ -23,8 +23,6 @@ namespace DataModels.Context
 
         public virtual DbSet<Category> Categories { get; set; }
 
-      
-
         public virtual DbSet<HistoryPrice> HistoryPrices { get; set; }
 
         public virtual DbSet<Order> Orders { get; set; }

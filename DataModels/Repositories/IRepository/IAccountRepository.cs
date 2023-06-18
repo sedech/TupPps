@@ -12,6 +12,6 @@ namespace DataModels.Repositories.IRepository
         Task<Int64> Create(Account entity);
         Task<Boolean> Update(Account entity);
         Task<Account> GetById(int id);
-        Task<Account> Login(string userName, string userPass);
+        Task<Account> Login(string UserName, string Password);
     }
 }
