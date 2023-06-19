@@ -11,7 +11,7 @@ namespace BusnessService.IService
     public interface IProductService
     {
 
-        Task<long> Create(ProductBe entity);
+        Task<long> Create(ProductToCreateBe entity);
         Task<bool> Update(ProductBe entity);
         Task<bool> Delete(int id);
         Task<List<ProductBe>> GetAll(int state, string name);

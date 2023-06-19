@@ -25,7 +25,7 @@ namespace TupPps.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult>  CreateProduct([FromBody] ProductBe product) 
+        public async Task<IActionResult>  CreateProduct([FromBody] ProductToCreateBe product) 
         {
               return Ok(await _productService.Create(product));
         }

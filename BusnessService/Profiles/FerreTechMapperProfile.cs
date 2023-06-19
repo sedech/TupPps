@@ -15,14 +15,20 @@ namespace BusnessService.Profiles
         {
             CreateMap<Account, AccountBe>().ReverseMap();
             CreateMap<Category, CategoryBe>().ReverseMap();
-            
+            CreateMap<Account, AccountWithoutRoleWithUsersBe>().ReverseMap();
             CreateMap<HistoryPrice, HistoryPriceBe>().ReverseMap();
             CreateMap<Order, OrderBe>().ReverseMap();
             CreateMap<OrderItem, OrderItemBe>().ReverseMap();
             CreateMap<Product, ProductBe>().ReverseMap();
             CreateMap<Brand, BrandBe>().ReverseMap();
             CreateMap<Role, RoleBe>().ReverseMap();
-         
+            CreateMap<Role, RoleWithoutUsersBe>().ReverseMap();
+            CreateMap<Account, AccountWithoutRoleBe>().ReverseMap();
+            CreateMap<Product, ProductToCreateBe>().ReverseMap();
+            CreateMap<Brand, BrandToCreateBe>().ReverseMap();
+            CreateMap<Category, CategoryToCreateBe>().ReverseMap();
+
+
         }
     }
 }

@@ -9,7 +9,7 @@ namespace BusnessService.IService
 {
     public interface IBrandService
     {
-        Task<long> Create(BrandBe entity);
+        Task<long> Create(BrandToCreateBe entity);
         Task<bool> Update(BrandBe entity);
         Task<BrandBe> GetById(int id);
     }

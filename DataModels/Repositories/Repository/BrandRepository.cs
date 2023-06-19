@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace DataModels.Repositories.Repository
 {
-    public class ProviderRepository : IBrandRepository
+    public class BrandRepository : IBrandRepository
     {
         private readonly FerreTechContext _context;
 
-        public ProviderRepository(FerreTechContext context)
+        public BrandRepository(FerreTechContext context)
         {
             _context = context;
         }

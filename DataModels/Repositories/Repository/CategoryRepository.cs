@@ -1,6 +1,7 @@
 ﻿using DataModels.Context;
 using DataModels.Entities;
 using DataModels.Repositories.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataModels.Repositories.Repository
 
@@ -12,29 +13,51 @@ namespace DataModels.Repositories.Repository
         {
             _context = context;
         }
-        public Task<Int64> Create(Category entity)
+        public async Task<Int64> Create(Category entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                entity.CreatedDate = DateTime.Now;
+                entity.State = 1;
+
+                await _context.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                return entity.Id;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
-        public Task<bool> Delete(int Id)
+        public async Task<Category> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = await _context.Categories.SingleOrDefaultAsync(u => u.Id == id);
+
+                return entity;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
-        public Task<IEnumerable<Category>> GetAll(int state, string name)
+        public async Task<bool> Update(Category entity)
         {
-            throw new NotImplementedException();
+            var cate = await _context.Categories.FindAsync(entity.Id);
+            if (cate == null)
+                throw new Exception("No se pudo actualizar la categoria");
+
+            cate.Name = entity.Name;
+            cate.Description = entity.Description;
+       
+            return true;
         }
 
-        public Task<Category> GetById(string id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<bool> Update(Category entity)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

@@ -24,7 +24,7 @@ namespace BusnessService.Service
             _maapper = maapper;
         }
 
-        public async Task<Int64> Create(AccountBe entity)
+        public async Task<Int64> Create(AccountWithoutRoleBe entity)
         {
             string encryptedPassword = Encrypt.GetMD5(entity.Password);
 
@@ -38,15 +38,15 @@ namespace BusnessService.Service
             return _maapper.Map<AccountBe>(await _repo.GetById(id));
         }
 
-        public async Task<AccountBe> Login(string UserName, string Password)
+        public async Task<AccountWithoutRoleWithUsersBe?> Login(string userName, string password)
         {
-            string passencryp = Encrypt.GetMD5(Password);
-            AccountBe account = new AccountBe()
+            string passencryp = Encrypt.GetMD5(password);
+            AccountWithoutRoleWithUsersBe account = new AccountWithoutRoleWithUsersBe()
             {
-                UserName = "juanito",
-                Password = "14567"
+                UserName = userName,
+                Password = passencryp
             };
-            return _maapper.Map<AccountBe>(await _repo.Login(account.UserName, account.Password));
+            return _maapper.Map<AccountWithoutRoleWithUsersBe>(await _repo.Login(account.UserName, account.Password));
         }
 
 

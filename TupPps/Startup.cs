@@ -26,12 +26,23 @@ namespace TupPps
             builder.Services.AddControllers();
 
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
             builder.Services.AddScoped<IProductService, ProductService>();
 
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-
             builder.Services.AddScoped<IAccountService, AccountService>();
+
+            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+            builder.Services.AddScoped<IBrandService, BrandService>();
+
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

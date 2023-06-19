@@ -20,7 +20,7 @@ namespace BusnessService.Service
             _repo = repo;
             _maapper = maapper;
         }
-        public async Task<Int64> Create(ProductBe entity)
+        public async Task<Int64> Create(ProductToCreateBe entity)
         {
             var result = _maapper.Map<Product>(entity);
             return await _repo.Create(result);

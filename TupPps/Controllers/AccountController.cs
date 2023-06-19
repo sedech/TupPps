@@ -16,7 +16,8 @@ namespace TupPps.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AccountBe account)
+        [Route("Register")]
+        public async Task<IActionResult> Create([FromBody] AccountWithoutRoleBe account)
         {
             return Ok(await _accountService.Create(account));
         }
@@ -28,11 +29,17 @@ namespace TupPps.Controllers
             return Ok(await _accountService.GetById(IdAccount));
         }
 
-        [HttpGet]
-        [Route("getAccountByLogin/{UserName}/{Password}")]
-        public async Task<IActionResult> Login(string UserName, string Password)
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> LoginUser(string UserName, string Password)
         {
-            return Ok(await _accountService.Login(UserName, Password));
+            var user = await _accountService.Login(UserName, Password);
+            if (user == null)
+            {
+                return NotFound("Usuario Y/O Contraseña incorrecto");
+            }
+            return Ok(user);
         }
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] AccountBe account)

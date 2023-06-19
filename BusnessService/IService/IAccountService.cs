@@ -10,9 +10,9 @@ namespace BusnessService.IService
 {
     public interface IAccountService
     {
-        Task<long> Create(AccountBe entity);
+        Task<long> Create(AccountWithoutRoleBe entity);
         Task<bool> Update(AccountBe entity);
         Task<AccountBe> GetById(int id);
-        Task<AccountBe> Login(string UserName, string Password);
+        Task<AccountWithoutRoleWithUsersBe?> Login(string UserName, string Password);
     }
 }

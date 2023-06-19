@@ -17,7 +17,7 @@ namespace TupPps.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBrand([FromBody] BrandBe brand)
+        public async Task<IActionResult> CreateBrand([FromBody] BrandToCreateBe brand)
         {
             return Ok(await _brandService.Create(brand));
         }
@@ -31,7 +31,7 @@ namespace TupPps.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProvider([FromBody] BrandBe brand)
+        public async Task<IActionResult> UpdateBrand([FromBody] BrandBe brand)
         {
             return Ok(await _brandService.Update(brand));
         }
