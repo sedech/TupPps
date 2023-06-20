@@ -16,6 +16,14 @@ namespace TupPps.Controllers
             this._brandService = brandService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllBrandAsync(int state = 1, string name = "")
+        {
+            List<BrandBe> brand = await this._brandService.GetAll(state, name);
+            return Ok(brand);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateBrand([FromBody] BrandToCreateBe brand)
         {

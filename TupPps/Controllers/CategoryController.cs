@@ -18,6 +18,13 @@ namespace TupPps.Controllers
             this._categoryService = categoryService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllCategoryAsync(int state = 1, string name = "")
+        {
+            List<CategoryBe> category = await this._categoryService.GetAll(state, name);
+            return Ok(category);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryToCreateBe category)
         {

@@ -30,6 +30,12 @@ namespace DataModels.Repositories.Repository
             }
         }
 
+        public async Task<IEnumerable<Category>> GetAll(int State, string Name)
+        {
+            var entities = _context.Categories.Where(u => u.State == State && (u.Name == Name || string.IsNullOrEmpty(Name)));
+            return entities;
+        }
+
         public async Task<Category> GetById(int id)
         {
             try

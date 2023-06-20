@@ -28,6 +28,12 @@ namespace BusnessService.Service
             return await _repo.Create(result);
         }
 
+        public async Task<List<CategoryBe>> GetAll(int state, string name)
+        {
+            var entities = await _repo.GetAll(state, name);
+            return _maapper.Map<List<CategoryBe>>(entities);
+        }
+
         public async Task<CategoryBe> GetById(int id)
         {
             return _maapper.Map<CategoryBe>(await _repo.GetById(id));

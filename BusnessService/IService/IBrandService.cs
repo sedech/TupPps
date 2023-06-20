@@ -11,6 +11,7 @@ namespace BusnessService.IService
     {
         Task<long> Create(BrandToCreateBe entity);
         Task<bool> Update(BrandBe entity);
+        Task<List<BrandBe>> GetAll(int state, string name);
         Task<BrandBe> GetById(int id);
     }
 }

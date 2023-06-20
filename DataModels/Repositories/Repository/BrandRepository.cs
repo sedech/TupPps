@@ -36,6 +36,12 @@ namespace DataModels.Repositories.Repository
             }
         }
 
+        public async Task<IEnumerable<Brand>> GetAll(int State, string Name)
+        {
+            var entities = _context.Brands.Where(u => u.State == State && (u.Name == Name || string.IsNullOrEmpty(Name)));
+            return entities;
+        }
+
         public async Task<Brand> GetById(int id)
         {
             try
