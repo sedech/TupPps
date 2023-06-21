@@ -58,7 +58,7 @@ namespace DataModels.Repositories.Repository
                 throw new Exception("No se pudo actualizar la categoria");
 
             cate.Name = entity.Name;
-            cate.Description = entity.Description;
+            //cate.Description = entity.Description;
        
             return true;
         }

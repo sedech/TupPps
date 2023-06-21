@@ -9,6 +9,6 @@ namespace BussnessEntities
     public class CategoryToCreateBe
     {
         public string Name { get; set; }
-        public string Description { get; set; }
+        // public string Description { get; set; }
     }
 }
