@@ -53,7 +53,16 @@ namespace DataModels.Context
 
         private void ModelConfig(ModelBuilder modelBuilder)
         {
+            new AccountConfiguration(modelBuilder.Entity<Account>());
+            new BrandConfiguration(modelBuilder.Entity<Brand>());
+            new CategoryConfiguration(modelBuilder.Entity<Category>());
+            new HistoryPriceConfiguration(modelBuilder.Entity<HistoryPrice>());
+            new OrderConfiguration(modelBuilder.Entity<Order>());
+            new OrderItemConfiguration(modelBuilder.Entity<OrderItem>());
+            new ProductConfiguration(modelBuilder.Entity<Product>());
             new RoleConfiguration(modelBuilder.Entity<Role>());
         }
+
+
     }
 }
