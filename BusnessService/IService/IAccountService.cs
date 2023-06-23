@@ -13,6 +13,6 @@ namespace BusnessService.IService
         Task<long> Create(AccountWithoutRoleBe entity);
         Task<bool> Update(AccountBe entity);
         Task<AccountBe> GetById(int id);
-        Task<AccountWithoutRoleWithUsersBe?> Login(string UserName, string Password);
+        Task<AccountWithoutRoleWithUsersBe?> Login(string Email, string Password);
     }
 }

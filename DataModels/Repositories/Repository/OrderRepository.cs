@@ -74,7 +74,6 @@ namespace DataModels.Repositories.Repository
             var ord = await _context.Orders.FindAsync(entity.Id);
             if (ord == null)
                 throw new Exception("No se pudo actualizar este order");
-                ord.CustomerId = entity.Id;
                 ord.AccountId = entity.Id;
                 ord.Total = entity.Total;
 

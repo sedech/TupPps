@@ -51,17 +51,17 @@ namespace DataModels.Repositories.Repository
             }
         }
 
-        public async Task<Account?> Login(string UserName, string Password)
+        public async Task<Account?> Login(string Email, string Password)
         {
             try
             {
                 
-                if (string.IsNullOrEmpty(UserName))
+                if (string.IsNullOrEmpty(Email))
                     throw new ArgumentException("Debe ingresar el usuario");
                 if (string.IsNullOrEmpty(Password))
                     throw new ArgumentException("Debe ingresar la contraseña");
-               var entity = await _context.Accounts.Include(u => u.Role).SingleOrDefaultAsync(u =>u.UserName == UserName && u.Password == Password);
-               // var entity2 = await _context.Accounts.FirstOrDefaultAsync(u => u.UserName == UserName && u.Password == Password);
+               var entity = await _context.Accounts.Include(u => u.Role).SingleOrDefaultAsync(u =>u.Email == Email && u.Password == Password);
+               // var entity2 = await _context.Accounts.FirstOrDefaultAsync(u => u.Email == Email && u.Password == Password);
                
                 return entity;
             }
@@ -76,8 +76,9 @@ namespace DataModels.Repositories.Repository
             var acco = await _context.Accounts.FindAsync(entity.Id);
             if (acco == null)
                 throw new Exception("No se pudo actualizar la clave");
-            acco.RoleId = entity.RoleId;
-            acco.UserName = entity.UserName;
+            acco.Name = entity.Name;
+            acco.LastName = entity.LastName;
+            acco.Email = entity.Email;
             acco.Password = entity.Password;
 
             return true;
@@ -85,3 +86,4 @@ namespace DataModels.Repositories.Repository
 
     }
 }
+

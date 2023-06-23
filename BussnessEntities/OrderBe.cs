@@ -3,7 +3,7 @@
     public class OrderBe:EntityBaseBe
     {
         
-        public Int64 CustomerId { get; set; }
+        
         public Int64 AccountId { get; set; }
         public float Total { get; set; }
 

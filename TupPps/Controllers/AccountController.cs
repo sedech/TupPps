@@ -32,9 +32,9 @@ namespace TupPps.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> LoginUser(string UserName, string Password)
+        public async Task<IActionResult> LoginUser(string Email, string Password)
         {
-            var user = await _accountService.Login(UserName, Password);
+            var user = await _accountService.Login(Email, Password);
             if (user == null)
             {
                 return NotFound("Usuario Y/O Contraseña incorrecto");

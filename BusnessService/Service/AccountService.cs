@@ -38,15 +38,15 @@ namespace BusnessService.Service
             return _maapper.Map<AccountBe>(await _repo.GetById(id));
         }
 
-        public async Task<AccountWithoutRoleWithUsersBe?> Login(string userName, string password)
+        public async Task<AccountWithoutRoleWithUsersBe?> Login(string email, string password)
         {
             string passencryp = Encrypt.GetMD5(password);
             AccountWithoutRoleWithUsersBe account = new AccountWithoutRoleWithUsersBe()
             {
-                UserName = userName,
+                Email = email,
                 Password = passencryp
             };
-            return _maapper.Map<AccountWithoutRoleWithUsersBe>(await _repo.Login(account.UserName, account.Password));
+            return _maapper.Map<AccountWithoutRoleWithUsersBe>(await _repo.Login(account.Email, account.Password));
         }
 
 

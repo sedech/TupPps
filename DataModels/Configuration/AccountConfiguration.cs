@@ -13,9 +13,13 @@ namespace DataModels.Configuration
         public AccountConfiguration(EntityTypeBuilder<Account>entityBuilder) 
         {
             entityBuilder.HasKey(u => u.Id);
-            entityBuilder.Property(u => u.UserName).IsRequired().HasMaxLength(250);
+            entityBuilder.Property(u => u.Name).IsRequired().HasMaxLength(250);
+            entityBuilder.Property(u => u.LastName).IsRequired().HasMaxLength(250);
+            entityBuilder.Property(u => u.Email).IsRequired().HasMaxLength(250);
             entityBuilder.Property(u => u.Password).IsRequired().HasMaxLength(250);
           
         }
     }
 }
+
+

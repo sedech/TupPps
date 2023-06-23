@@ -13,7 +13,6 @@ namespace DataModels.Configuration
         public OrderConfiguration(EntityTypeBuilder<Order>entityBuilder) 
         {
             entityBuilder.HasKey(u => u.Id);
-            entityBuilder.Property(u => u.CustomerId).IsRequired();
             entityBuilder.Property(u => u.AccountId).IsRequired();
             entityBuilder.Property(u => u.Total).IsRequired();
 
