@@ -4,8 +4,10 @@ using BusnessService.Service;
 using DataModels.Context;
 using DataModels.Repositories.IRepository;
 using DataModels.Repositories.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace TupPps
@@ -55,7 +57,33 @@ namespace TupPps
             builder.Services.AddAutoMapper(typeof(FerreTechMapperProfile));
 
 
-            
+            // Swagger Authorize
+            builder.Services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.AddSecurityDefinition("TupPps", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Description = "JWT Authentication",
+                    Scheme = "Bearer",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                });
+
+                setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+            {
+                        new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "TupPps",
+                        }
+                    },
+                    new List<string>()
+            }
+                });
+            });
 
 
         }

@@ -6,6 +6,8 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using BussnessEntities;
 using System.Security.Cryptography;
+using DataModels.Context;
+using System.Linq;
 
 namespace TupPps.Controllers
 {
@@ -34,7 +36,7 @@ namespace TupPps.Controllers
         {
             var query = $"SELECT RoleId, Name, LastName, Email " +
                 $"FROM Accounts " +
-                $"WHERE Email = '{loginModel.Email}' AND Password = '{loginModel.Password}'";
+                $"WHERE Email = '{loginModel.Email}'";
 
             // check account
             var account = AuthenticateAccount(loginModel.Email, loginModel.Password);
@@ -51,8 +53,7 @@ namespace TupPps.Controllers
         private static string GenerateJwtToken(AccountWithoutRoleBe account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            //var key = Encoding.ASCII.GetBytes(SecretKey);
-            // Generar una clave secreta de 32 bytes (256 bits)
+
             byte[] keyBytes = new byte[32];
             using (var rng = new RNGCryptoServiceProvider())
             {
@@ -75,17 +76,38 @@ namespace TupPps.Controllers
             return tokenHandler.WriteToken(token);
         }
 
+        private static bool CompareHashes(string password, string hashedPassword)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hash = md5.ComputeHash(passwordBytes);
+                string hashedPasswordToCompare = BitConverter.ToString(hash).Replace("-", "").ToLower();
+
+                return hashedPasswordToCompare == hashedPassword;
+            }
+        }
+
         private static AccountWithoutRoleBe AuthenticateAccount(string email, string password)
         {
-            if (email == "tup@utn.com.ar" && password == "2023")
+            // Consultar la BD para verificar
+            using (var db = new FerreTechContext())
             {
-                return new AccountWithoutRoleBe
+                var account = db.Accounts.FirstOrDefault(a => a.Email == email);
+                if (account != null)
                 {
-                    RoleId = 1,
-                    Name = "Tup",
-                    LastName = "Ros",
-                    Email = email,
-                };
+                    // Comparar los hashes de las contraseñas
+                    if (CompareHashes(password, account.Password))
+                    {
+                        return new AccountWithoutRoleBe
+                        {
+                            RoleId = account.RoleId,
+                            Name = account.Name,
+                            LastName = account.LastName,
+                            Email = account.Email
+                        };
+                    }
+                }
             }
 
             return null;
