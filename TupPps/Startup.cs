@@ -5,9 +5,8 @@ using DataModels.Context;
 using DataModels.Repositories.IRepository;
 using DataModels.Repositories.Repository;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace TupPps
 {
@@ -19,6 +18,7 @@ namespace TupPps
             configurationService(builder);
             var app = builder.Build();
             Configure(app);
+
             return app;
         }
         private static void configurationService(WebApplicationBuilder builder)
@@ -53,7 +53,25 @@ namespace TupPps
                     options.UseSqlServer(builder.Configuration.GetConnectionString("FerreConnection"));
                 });
             builder.Services.AddAutoMapper(typeof(FerreTechMapperProfile));
+
+
+            builder.Services.AddAuthentication("Bearer")
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Authentication:Issuer"],
+                    ValidAudience = builder.Configuration["Authentication:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
+                };
+            });
+
         }
+
+
 
         private static void Configure(WebApplication app)
         {
