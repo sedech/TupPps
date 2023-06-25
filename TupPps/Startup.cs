@@ -65,6 +65,8 @@ namespace TupPps
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication(); 
+
             app.UseAuthorization();
 
             app.MapControllers();

@@ -1,6 +1,4 @@
-﻿using BusnessService.Authenticacion;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,35 +6,27 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using BussnessEntities;
 
-
 namespace TupPps.Controllers
 {
-    
     [ApiController]
     [Route("api/[auth]")]
     public class AuthenticacionController : ControllerBase
     {
-        private readonly JwtAuthenticator authenticator;
+        private static readonly string SecretKey = "mi clave secretita";
 
-        public AuthenticacionController()
-        {
-            var secretKey = "mi clave secretita";
-            authenticator = new JwtAuthenticator(secretKey);
-        }
-
-        [HttpPost("signup")]
+        [HttpPost("api/auth/signup")]
         public IActionResult Signup(AccountWithoutRoleBe user)
         {
             var query = $"INSERT INTO Users (RoleId, Name, LastName, Email, Password) " +
                 $"VALUES ({user.RoleId}, '{user.Name}', '{user.LastName}', '{user.Email}', '{user.Password}')";
 
             // genera el token para el usuario registrado
-            var jwtToken = authenticator.GenerateJwtToken(user);
+            var jwtToken = GenerateJwtToken(user);
 
             return Ok(new { token = jwtToken });
         }
 
-        [HttpPost("login")]
+        [HttpPost("api/auth/login")]
         public IActionResult Login(AccountWithoutRoleWithUsersBe loginModel)
         {
             var query = $"SELECT RoleId, Name, LastName, Email " +
@@ -46,21 +36,37 @@ namespace TupPps.Controllers
             // check user
             var user = AuthenticateUser(loginModel.Email, loginModel.Password);
 
-            if (user != null) 
+            if (user != null)
             {
-              
-                var jwtToken = authenticator.GenerateJwtToken(user);
-
+                var jwtToken = GenerateJwtToken(user);
                 return Ok(new { token = jwtToken });
             }
 
             return Unauthorized();
         }
 
-         // hace falta implementar eso 
-         private AccountWithoutRoleBe AuthenticateUser(string email, string password)
-         {
-            if (email == "tup@utn.com.ar" || password == "2023")
+        private static string GenerateJwtToken(AccountWithoutRoleBe user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(SecretKey);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, user.Email),
+                    new Claim(ClaimTypes.Role, user.RoleId.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        private static AccountWithoutRoleBe AuthenticateUser(string email, string password)
+        {
+            if (email == "tup@utn.com.ar" && password == "2023")
             {
                 return new AccountWithoutRoleBe
                 {
@@ -69,11 +75,9 @@ namespace TupPps.Controllers
                     LastName = "Ros",
                     Email = email,
                 };
-
             }
+
             return null;
-         }
-
+        }
     }
-
 }
