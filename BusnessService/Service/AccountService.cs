@@ -46,7 +46,15 @@ namespace BusnessService.Service
                 Email = email,
                 Password = passencryp
             };
-            return _maapper.Map<AccountWithoutRoleWithUsersBe>(await _repo.Login(account.Email, account.Password));
+
+            var loginResult = await _repo.Login(account.Email, account.Password);
+            if (loginResult == null)
+            {
+                return null;
+            }
+
+            account.RoleId = loginResult.RoleId;
+            return _maapper.Map<AccountWithoutRoleWithUsersBe>(loginResult);
         }
 
 

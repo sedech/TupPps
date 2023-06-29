@@ -8,12 +8,10 @@ namespace BussnessEntities
 {
     public class AccountWithoutRoleWithUsersBe
     {
-        //public Int64 RoleId { get; set; }
-        //public string Name { get; set; }
-        //public string LastName { get; set; }
-        public string Email { get; set; }
+        public Int64 RoleId { get; set; }
+         public string Email { get; set; } 
         public string Password { get; set; }
 
-       // public RoleWithoutUsersBe Role { get; set; }
+       
     }
 }

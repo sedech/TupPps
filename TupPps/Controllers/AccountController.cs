@@ -42,6 +42,8 @@ namespace TupPps.Controllers
             }
             return Ok(user);
         }
+
+
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] AccountBe account)
         {
