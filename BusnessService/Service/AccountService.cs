@@ -38,7 +38,7 @@ namespace BusnessService.Service
             return _maapper.Map<AccountBe>(await _repo.GetById(id));
         }
 
-        public async Task<AccountWithoutRoleWithUsersBe?> Login(string email, string password)
+        public async Task<LoginResponse?> Login(string email, string password)
         {
             string passencryp = Encrypt.GetMD5(password);
             AccountWithoutRoleWithUsersBe account = new AccountWithoutRoleWithUsersBe()
@@ -53,8 +53,18 @@ namespace BusnessService.Service
                 return null;
             }
 
-            account.RoleId = loginResult.RoleId;
-            return _maapper.Map<AccountWithoutRoleWithUsersBe>(loginResult);
+            LoginResponse response = new LoginResponse()
+            {
+                Id = loginResult.Id,
+                RoleId = loginResult.RoleId,
+                Name = loginResult.Name,
+                LastName = loginResult.LastName,
+                Email = loginResult.Email
+                
+            };
+            return response;
+            //account.RoleId = loginResult.RoleId;
+            //return _maapper.Map<AccountWithoutRoleWithUsersBe>(loginResult);
         }
 
 

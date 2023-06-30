@@ -32,7 +32,7 @@ namespace TupPps.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(AccountWithoutRoleWithUsersBe loginModel)
+        public IActionResult Login(AuthLogin loginModel)
         {
             var query = $"SELECT RoleId, Name, LastName, Email " +
                 $"FROM Accounts " +
