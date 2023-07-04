@@ -16,7 +16,11 @@ namespace TupPps.Controllers
     public class AuthenticacionController : ControllerBase
     {
         private static readonly string SecretKey = "mi clave secretita";
-
+        /*
+         Se inserta el nuevo usuario en la base de datos y 
+        se genera un token JWT (Json Web Token) para el usuario registrado. 
+        El token JWT se devuelve como respuesta exitosa (200 OK).
+         */
         [HttpPost]
         [Route("signup")]
         public IActionResult Signup(AccountWithoutRoleBe user)
@@ -30,6 +34,12 @@ namespace TupPps.Controllers
             return Ok(new { token = jwtToken });
         }
 
+        /*
+          Se autentica el usuario verificando las credenciales proporcionadas en la base de datos. 
+        Si las credenciales son correctas, se genera un token JWT para el usuario autenticado 
+        y se devuelve como respuesta exitosa (200 OK). 
+        Si las credenciales son incorrectas, se devuelve una respuesta de error (401 Unauthorized).
+         */
         [HttpPost]
         [Route("login")]
         public IActionResult Login(AuthLogin loginModel)
@@ -50,6 +60,11 @@ namespace TupPps.Controllers
             return Unauthorized();
         }
 
+        /*
+         esta propiedad genera un token JWT válido para un usuario específico y 
+        lo devuelve como una cadena. El token puede ser utilizado para autenticar 
+        y autorizar al usuario en las solicitudes posteriores a la API.
+         */
         private static string GenerateJwtToken(AccountWithoutRoleBe account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -76,6 +91,14 @@ namespace TupPps.Controllers
             return tokenHandler.WriteToken(token);
         }
 
+        /*
+         esta propiedad toma una contraseña sin cifrar, la convierte en un hash utilizando el algoritmo MD5 
+        y luego compara el hash generado con una contraseña cifrada existente. 
+        Si los hashes coinciden, esto implica que las contraseñas coinciden y 
+        se devuelve true. Si los hashes no coinciden, se devuelve false. 
+        Este método es comúnmente utilizado en escenarios de autenticación y 
+        verificación de contraseñas. 
+         */
         private static bool CompareHashes(string password, string hashedPassword)
         {
             using (MD5 md5 = MD5.Create())
@@ -88,6 +111,12 @@ namespace TupPps.Controllers
             }
         }
 
+        /*
+         esta propiedad consulta la base de datos para buscar una cuenta de usuario con el correo electrónico proporcionado, 
+        luego verifica si la contraseña coinciden comparando los hashes de las contraseñas. 
+        Si la autenticación es exitosa, se devuelve un objeto AccountWithoutRoleBe con los detalles de la cuenta;
+        de lo contrario, se devuelve null.
+         */
         private static AccountWithoutRoleBe AuthenticateAccount(string email, string password)
         {
             
