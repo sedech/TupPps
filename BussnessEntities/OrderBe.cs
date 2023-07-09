@@ -2,8 +2,8 @@
 {
     public class OrderBe:EntityBaseBe
     {
-        
-        
+
+        public Int64 ProductId { get; set; }
         public Int64 AccountId { get; set; }
         public float Total { get; set; }
 

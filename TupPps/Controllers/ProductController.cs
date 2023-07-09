@@ -1,6 +1,7 @@
 ﻿
 using BusnessService.IService;
 using BussnessEntities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TupPps.Controllers
@@ -36,7 +37,7 @@ namespace TupPps.Controllers
         y devuelve una respuesta exitosa (200 OK) con el resultado de la creación del producto.
          */
 
-
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
         [HttpPost]
         public async Task<IActionResult>  CreateProduct([FromBody] ProductToCreateBe product) 
         {
@@ -49,6 +50,7 @@ namespace TupPps.Controllers
         devuelve una respuesta exitosa (200 OK) con el resultado de la eliminación del producto.
          */
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult>  DeleteProduct([FromQuery]int IdProduct) 
         {

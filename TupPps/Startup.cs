@@ -5,10 +5,12 @@ using DataModels.Context;
 using DataModels.Repositories.IRepository;
 using DataModels.Repositories.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace TupPps
 {
@@ -25,7 +27,58 @@ namespace TupPps
         }
         private static void configurationService(WebApplicationBuilder builder)
         {
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.AddSecurityDefinition("TiendaComputacionApiBearerAuth", new OpenApiSecurityScheme()
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    Description = "..."
+                });
+
+                setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "TiendaComputacionApiBearerAuth" }
+                }, new List<string>() }
+    });
+            });
+
+
+            builder.Services
+                .AddHttpContextAccessor()
+                .AddAuthorization()
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Authentication:Issuer"],
+                        ValidAudience = builder.Configuration["Authentication:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Authentication:Key"]))
+                    };
+                });
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequiredLength = 7;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireUppercase = false;
+                opt.User.RequireUniqueEmail = true;
+            })
+                .AddEntityFrameworkStores<FerreTechContext>();
 
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
@@ -55,35 +108,6 @@ namespace TupPps
                     options.UseSqlServer(builder.Configuration.GetConnectionString("FerreConnection"));
                 });
             builder.Services.AddAutoMapper(typeof(FerreTechMapperProfile));
-
-
-            // Swagger Authorize
-            builder.Services.AddSwaggerGen(setupAction =>
-            {
-                setupAction.AddSecurityDefinition("TupPps", new OpenApiSecurityScheme()
-                {
-                    Name = "Authorization",
-                    Description = "JWT Authentication",
-                    Scheme = "Bearer",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                });
-
-                setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-            {
-                        new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "TupPps",
-                        }
-                    },
-                    new List<string>()
-            }
-                });
-            });
 
 
         }

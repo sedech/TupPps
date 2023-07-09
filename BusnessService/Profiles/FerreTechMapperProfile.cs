@@ -31,7 +31,7 @@ namespace BusnessService.Profiles
             CreateMap<Product, ProductToCreateBe>().ReverseMap();
             CreateMap<Role, RoleBe>().ReverseMap();
             CreateMap<Role, RoleWithoutUsersBe>().ReverseMap();
-
+       
         }
     }
 }

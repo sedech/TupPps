@@ -8,6 +8,8 @@ using BussnessEntities;
 using System.Security.Cryptography;
 using DataModels.Context;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Azure.Core;
 
 namespace TupPps.Controllers
 {
@@ -16,6 +18,17 @@ namespace TupPps.Controllers
     public class AuthenticacionController : ControllerBase
     {
         private static readonly string SecretKey = "mi clave secretita";
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration _config;
+
+        // inyeccion de independencia
+
+        public AuthenticacionController(IConfiguration config, UserManager<IdentityUser> userManager)
+        {
+            _config = config;
+            _userManager = userManager;
+
+        }
         /*
          Se inserta el nuevo usuario en la base de datos y 
         se genera un token JWT (Json Web Token) para el usuario registrado. 
@@ -23,15 +36,51 @@ namespace TupPps.Controllers
          */
         [HttpPost]
         [Route("signup")]
-        public IActionResult Signup(AccountWithoutRoleBe user)
+        public async Task<ActionResult<string>> RegisterUser(AccountCreationDto user)
         {
-            var query = $"INSERT INTO Users (RoleId, Name, LastName, Email, Password) " +
-                $"VALUES ({user.RoleId}, '{user.Name}', '{user.LastName}', '{user.Email}', '{user.Password}')";
+            var newUser = new IdentityUser() 
+            { 
+                Email = user.Email,
+                UserName = user.UserName,
+                
+            };
 
-            // genera el token para el usuario registrado
-            var jwtToken = GenerateJwtToken(user);
+            var result = await _userManager.CreateAsync(newUser, user.Password);
+            if (result.Succeeded)
+            {
+                var userToToken = await _userManager.FindByEmailAsync(user.Email);
 
-            return Ok(new { token = jwtToken });
+                if (userToToken == null)
+                    return BadRequest();
+                if(user.RoleId == 1) 
+                { 
+                   await _userManager.AddToRoleAsync(userToToken, "Admin");
+                }
+
+                if (user.RoleId == 2)
+                {
+                    await _userManager.AddToRoleAsync(userToToken, "Vendedor");
+                }
+
+                if (user.RoleId == 3)
+                {
+                    await _userManager.AddToRoleAsync(userToToken, "Cliente");
+                }
+
+
+
+                var roles = await _userManager.GetRolesAsync(userToToken);
+
+                var jwt_signup = GenerateJwtToken(userToToken, roles);
+
+
+                if (jwt_signup != null)
+                {
+                    return jwt_signup;
+                }
+
+            }
+            return BadRequest(result);
         }
 
         /*
@@ -42,22 +91,23 @@ namespace TupPps.Controllers
          */
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(AuthLogin loginModel)
+        public async Task<ActionResult<string>> Login(AuthLogin request)
         {
-            var query = $"SELECT RoleId, Name, LastName, Email " +
-                $"FROM Accounts " +
-                $"WHERE Email = '{loginModel.Email}'";
+            var user = await _userManager.FindByEmailAsync(request.Email);
 
-            // check account
-            var account = AuthenticateAccount(loginModel.Email, loginModel.Password);
-
-            if (account != null)
+            if (user is null || !await _userManager.CheckPasswordAsync(user, request.Password))
             {
-                var jwtToken = GenerateJwtToken(account);
-                return Ok(new { token = jwtToken });
+                return Forbid();
             }
 
-            return Unauthorized();
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var jwt = GenerateJwtToken(user, roles);
+
+
+            return Ok(jwt);
+
+
         }
 
         /*
@@ -65,30 +115,34 @@ namespace TupPps.Controllers
         lo devuelve como una cadena. El token puede ser utilizado para autenticar 
         y autorizar al usuario en las solicitudes posteriores a la API.
          */
-        private static string GenerateJwtToken(AccountWithoutRoleBe account)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public string GenerateJwtToken([FromBody] IdentityUser user, [FromQuery] ICollection<string> roles)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            byte[] keyBytes = new byte[32];
-            using (var rng = new RNGCryptoServiceProvider())
+            var claims = new List<Claim>
             {
-                rng.GetBytes(keyBytes);
-            }
-
-            string secretKey = Encoding.ASCII.GetString(keyBytes);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, account.Email),
-                    new Claim(ClaimTypes.Role, account.RoleId.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey)), SecurityAlgorithms.HmacSha256Signature)
+                new Claim(ClaimTypes.Sid, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
+                
             };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Authentication:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+            var tokenDescriptor = new JwtSecurityToken(
+                issuer: _config["Authentication:Issuer"],
+                audience: _config["Authentication:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(720),
+                signingCredentials: credentials);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+
+            return jwt;
         }
 
         /*
@@ -119,7 +173,7 @@ namespace TupPps.Controllers
          */
         private static AccountWithoutRoleBe AuthenticateAccount(string email, string password)
         {
-            
+
             // Consultar la BD para verificar
             using (var db = new FerreTechContext())
             {

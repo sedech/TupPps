@@ -2,13 +2,15 @@
 
 using DataModels.Configuration;
 using DataModels.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataModels.Context
 {
 
 
-    public partial class FerreTechContext : DbContext
+    public partial class FerreTechContext : IdentityDbContext<IdentityUser>
     {
         public FerreTechContext():base()
         {
@@ -21,6 +23,7 @@ namespace DataModels.Context
 
         public virtual DbSet<Account> Accounts { get; set; }
 
+        public virtual DbSet<IdentityUser> Users { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
 
         public virtual DbSet<HistoryPrice> HistoryPrices { get; set; }
@@ -48,6 +51,41 @@ namespace DataModels.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //setear roles de usuario
+            
+            //
+
+            string ADMIN_ROLE = "341743f0-asd2–42de-afbf-59kmkkmk72cf6";
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Name = "Admin",
+                NormalizedName = "ADMIN",
+                Id = ADMIN_ROLE,
+                ConcurrencyStamp = ADMIN_ROLE
+            });
+
+
+            //seed cliente role
+            string CLIENTE_ROLE = "601f0ede-374e-45f0-9373-50cba7a8183e";
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Name = "Cliente",
+                NormalizedName = "CLIENTE",
+                Id = CLIENTE_ROLE,
+                ConcurrencyStamp = CLIENTE_ROLE
+            });
+
+            //seed vendedor role
+            string VENDEDOR_ROLE = "65450c8a-1e5b-11ee-be56-0242ac120002";
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Name = "Vendedor",
+                NormalizedName = "VENDEDOR",
+                Id = VENDEDOR_ROLE,
+                ConcurrencyStamp = VENDEDOR_ROLE
+            });
+
             ModelConfig(modelBuilder);
         }
 
