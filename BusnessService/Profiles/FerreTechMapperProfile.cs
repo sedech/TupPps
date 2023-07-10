@@ -14,6 +14,7 @@ namespace BusnessService.Profiles
         public FerreTechMapperProfile()
         {
             CreateMap<Account, AccountBe>().ReverseMap();
+            CreateMap<Account, AccountCreationDto>().ReverseMap();
             CreateMap<Category, CategoryBe>().ReverseMap();
             CreateMap<Account, AccountWithoutRoleWithUsersBe>().ReverseMap();
             CreateMap<Account, AccountWithoutRoleBe>().ReverseMap();

@@ -31,11 +31,26 @@ namespace TupPps.Controllers
             _userManager = userManager;
 
         }
-        /*
-         Se inserta el nuevo usuario en la base de datos y 
-        se genera un token JWT (Json Web Token) para el usuario registrado. 
-        El token JWT se devuelve como respuesta exitosa (200 OK).
-         */
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [HttpGet]
+        [Route("accounts")]
+        public async Task<ActionResult<IEnumerable<AccountCreationDto>>> GetAccounts([FromQuery] string id)
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            var accounts = users.Select(u => new AccountCreationDto
+            {
+                //RoleId = u.RoleID, 
+                UserName = u.UserName,
+                //FirstName = u.FirstName,
+               // LastName = u.LastName,
+                Email = u.Email,
+                Password = string.Empty // Omitir la contraseña 
+            }).ToList();
+
+            return Ok(accounts);
+        }
+
         [HttpPost]
         [Route("signup")]
         public async Task<ActionResult<string>> RegisterUser(AccountCreationDto user)
@@ -93,7 +108,7 @@ namespace TupPps.Controllers
          */
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<string>> Login(AuthLogin request)
+        public async Task<ActionResult<object>> Login(AuthLogin request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 
@@ -104,10 +119,22 @@ namespace TupPps.Controllers
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            var jwt = GenerateJwtToken(user, roles);
+            var token = GenerateJwtToken(user, roles);
 
+            var userObject = new
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email
+            };
 
-            return Ok(jwt);
+            var response = new
+            {
+                Token = token,
+                User = userObject
+            };
+
+            return Ok(response);
 
 
         }
@@ -200,9 +227,14 @@ namespace TupPps.Controllers
                 expires: DateTime.Now.AddMinutes(720),
                 signingCredentials: credentials);
 
-            var jwt = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+            //var jwt = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
 
-            return jwt;
+            // return jwt;
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.WriteToken(tokenDescriptor);
+
+            return token;
+
         }
 
         /*
@@ -225,6 +257,6 @@ namespace TupPps.Controllers
             }
         }
 
-        
+
     }
 }
