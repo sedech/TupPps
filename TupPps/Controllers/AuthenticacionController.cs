@@ -10,6 +10,8 @@ using DataModels.Context;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace TupPps.Controllers
 {
@@ -38,11 +40,11 @@ namespace TupPps.Controllers
         [Route("signup")]
         public async Task<ActionResult<string>> RegisterUser(AccountCreationDto user)
         {
-            var newUser = new IdentityUser() 
-            { 
+            var newUser = new IdentityUser()
+            {
                 Email = user.Email,
                 UserName = user.UserName,
-                
+
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
@@ -52,9 +54,9 @@ namespace TupPps.Controllers
 
                 if (userToToken == null)
                     return BadRequest();
-                if(user.RoleId == 1) 
-                { 
-                   await _userManager.AddToRoleAsync(userToToken, "Admin");
+                if (user.RoleId == 1)
+                {
+                    await _userManager.AddToRoleAsync(userToToken, "Admin");
                 }
 
                 if (user.RoleId == 2)
@@ -111,6 +113,64 @@ namespace TupPps.Controllers
         }
 
         /*
+        // Endpoint para obtener todas las cuentas (solo accesible por el rol "Admin")
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [HttpGet]
+        [Route("accounts")]
+        public Action<IEnumerable<AccountCreationDto>> GetAccounts()
+        {
+            // para obtener las cuentes
+            var users = _dbContext.Users.ToList();
+
+            // Mapear los usuarios a AccountCreationDto si es necesario
+            var accounts = users.Select(u => new AccountCreationDto
+            {
+                RoleId = 0, // Asignar el valor adecuado según tus requisitos
+                UserName = u.UserName,
+                //FirstName = u.FirstName,
+                // LastName = u.LastName,
+                Email = u.Email,
+                Password = string.Empty // Omitir la contraseña si no es necesaria en este contexto
+            });
+            return Ok(accounts);
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [HttpDelete]
+        [Route("accounts/{id}")]
+        public async ActionResult DeleteAccount([FromQuery] string id)
+        {
+
+            var account = await _userManager.FindByIdAsync(id);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(account);
+
+            if (!roles.Contains("Vendedor") && !roles.Contains("Cliente"))
+            {
+                return BadRequest("No se cumple con los requisitos de borrarla");
+            }
+
+            // borrar si cumple los requisitos
+            var result = await _userManager.DeleteAsync(account);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+         */
+
+
+        /*
          esta propiedad genera un token JWT válido para un usuario específico y 
         lo devuelve como una cadena. El token puede ser utilizado para autenticar 
         y autorizar al usuario en las solicitudes posteriores a la API.
@@ -123,7 +183,7 @@ namespace TupPps.Controllers
                 new Claim(ClaimTypes.Sid, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
-                
+
             };
 
             foreach (var role in roles)
@@ -165,36 +225,6 @@ namespace TupPps.Controllers
             }
         }
 
-        /*
-         esta propiedad consulta la base de datos para buscar una cuenta de usuario con el correo electrónico proporcionado, 
-        luego verifica si la contraseña coinciden comparando los hashes de las contraseñas. 
-        Si la autenticación es exitosa, se devuelve un objeto AccountWithoutRoleBe con los detalles de la cuenta;
-        de lo contrario, se devuelve null.
-         */
-        private static AccountWithoutRoleBe AuthenticateAccount(string email, string password)
-        {
-
-            // Consultar la BD para verificar
-            using (var db = new FerreTechContext())
-            {
-                var account = db.Accounts.FirstOrDefault(a => a.Email == email);
-                if (account != null)
-                {
-                    // Comparar los hashes de las contraseñas
-                    if (CompareHashes(password, account.Password))
-                    {
-                        return new AccountWithoutRoleBe
-                        {
-                            RoleId = account.RoleId,
-                            Name = account.Name,
-                            LastName = account.LastName,
-                            Email = account.Email
-                        };
-                    }
-                }
-            }
-
-            return null;
-        }
+        
     }
 }

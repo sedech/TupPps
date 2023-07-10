@@ -1,5 +1,4 @@
 ﻿
-
 using DataModels.Configuration;
 using DataModels.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -66,7 +65,7 @@ namespace DataModels.Context
             });
 
 
-            //seed cliente role
+            // cliente role
             string CLIENTE_ROLE = "601f0ede-374e-45f0-9373-50cba7a8183e";
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
             {
@@ -76,7 +75,7 @@ namespace DataModels.Context
                 ConcurrencyStamp = CLIENTE_ROLE
             });
 
-            //seed vendedor role
+            // vendedor role
             string VENDEDOR_ROLE = "65450c8a-1e5b-11ee-be56-0242ac120002";
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
             {

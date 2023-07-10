@@ -1,4 +1,5 @@
 ﻿
+
 using BusnessService.IService;
 using BussnessEntities;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@ namespace TupPps.Controllers
     {
         private readonly IProductService _productService;
 
-            public ProductController(IProductService productService)
+        public ProductController(IProductService productService)
         {
             this._productService = productService;
         }
@@ -25,9 +26,9 @@ namespace TupPps.Controllers
          */
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProductAsync(int state = 1, string name="")
+        public async Task<IActionResult> GetAllProductAsync(int state = 1, string name = "")
         {
-            List<ProductBe> producto = await this._productService.GetAll(state,name);
+            List<ProductBe> producto = await this._productService.GetAll(state, name);
             return Ok(producto);
         }
 
@@ -39,9 +40,9 @@ namespace TupPps.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
         [HttpPost]
-        public async Task<IActionResult>  CreateProduct([FromBody] ProductToCreateBe product) 
+        public async Task<IActionResult> CreateProduct( ProductToCreateBe product)
         {
-              return Ok(await _productService.Create(product));
+            return Ok(await _productService.Create(product));
         }
 
         /*
@@ -52,9 +53,9 @@ namespace TupPps.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpDelete]
-        public async Task<IActionResult>  DeleteProduct([FromQuery]int IdProduct) 
+        public async Task<IActionResult> DeleteProduct([FromQuery] int IdProduct)
         {
-               return Ok(await _productService.Delete(IdProduct));
+            return Ok(await _productService.Delete(IdProduct));
         }
 
         /*
@@ -64,9 +65,9 @@ namespace TupPps.Controllers
          */
         [HttpGet]
         [Route("getProduct/{IdProduct}")]
-        public async Task<IActionResult>  GetProduct(int IdProduct)
+        public async Task<IActionResult> GetProduct(int IdProduct)
         {
-             
+
             return Ok(await _productService.GetById(IdProduct));
         }
 
