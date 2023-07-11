@@ -38,7 +38,7 @@ namespace TupPps.Controllers
          */
         [HttpPost]
         [Route("signup")]
-        public async Task<ActionResult<string>> RegisterUser(AccountCreationDto user)
+        public async Task<ActionResult<bool>> RegisterUser(AccountCreationDto user)
         {
             var newUser = new IdentityUser()
             {
@@ -70,28 +70,15 @@ namespace TupPps.Controllers
                     await _userManager.AddToRoleAsync(userToToken, "Cliente");
                 }
 
-
-
-                var roles = await _userManager.GetRolesAsync(userToToken);
-
-                var jwt_signup = GenerateJwtToken(userToToken, roles);
-
-
-                if (jwt_signup != null)
-                {
-                    return jwt_signup;
-                }
-
+                return true;
+               
             }
-            return BadRequest(result);
+
+            return false;
+            
         }
 
-        /*
-          Se autentica el usuario verificando las credenciales proporcionadas en la base de datos. 
-        Si las credenciales son correctas, se genera un token JWT para el usuario autenticado 
-        y se devuelve como respuesta exitosa (200 OK). 
-        Si las credenciales son incorrectas, se devuelve una respuesta de error (401 Unauthorized).
-         */
+        
         [HttpPost]
         [Route("login")]
         public async Task<ActionResult<object>> Login(AuthLogin request)
