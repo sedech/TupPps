@@ -115,19 +115,24 @@ namespace TupPps.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet]
         [Route("accounts")]
-        public async Task<ActionResult<IEnumerable<AccountCreationDto>>> GetAccounts([FromQuery] string id)
+        public async Task<ActionResult<AccountCreationDto>> GetAccounts([FromQuery] string id)
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.FindByIdAsync(id);
 
-            var accounts = users.Select(u => new AccountCreationDto
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            var accounts = new AccountCreationDto
             {
                 //RoleId = u.RoleID, 
-                UserName = u.UserName,
+                UserName = users.UserName,
                 //FirstName = u.FirstName,
                 // LastName = u.LastName,
-                Email = u.Email,
+                Email = users.Email,
                 Password = string.Empty // Omitir la contraseña 
-            }).ToList();
+            };
 
             return Ok(accounts);
         }
