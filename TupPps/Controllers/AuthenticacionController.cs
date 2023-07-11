@@ -117,20 +117,20 @@ namespace TupPps.Controllers
         [Route("accounts")]
         public async Task<ActionResult<AccountCreationDto>> GetAccounts([FromQuery] string id)
         {
-            var users = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
 
-            if (users == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
             var accounts = new AccountCreationDto
             {
-                //RoleId = u.RoleID, 
-                UserName = users.UserName,
-                //FirstName = u.FirstName,
-                // LastName = u.LastName,
-                Email = users.Email,
+                //RoleId = user.RoleId, 
+                UserName = user.UserName,
+                //FirstName = user.FirstName,
+                // LastName = user.LastName,
+                Email = user.Email,
                 Password = string.Empty // Omitir la contraseña 
             };
 
