@@ -116,12 +116,32 @@ namespace TupPps.Controllers
             return Ok(response);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [HttpGet]
+        [Route("AllAccounts")]
+        public async Task<ActionResult<IEnumerable<AccountCreationDto>>> GetAllAccounts([FromQuery] string id)
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            var accounts = users.Select(u => new AccountCreationDto
+            {
+                RoleId = u.RoleId,
+                UserName = u.UserName,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                Password = string.Empty // Omitir la contraseña 
+            }).ToList();
+
+            return Ok(accounts);
+        }
+
 
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet]
-        [Route("accounts")]
-        public async Task<ActionResult<AccountCreationDto>> GetAccounts([FromQuery] string id)
+        [Route("account")]
+        public async Task<ActionResult<AccountCreationDto>> GetAccount([FromQuery] string id)
         {
             var user = await _userManager.FindByIdAsync(id);
 
@@ -130,7 +150,7 @@ namespace TupPps.Controllers
                 return NotFound();
             }
 
-            var accounts = new AccountCreationDto
+            var account = new AccountCreationDto
             {
                 RoleId = user.RoleId, 
                 UserName = user.UserName,
@@ -140,7 +160,7 @@ namespace TupPps.Controllers
                 Password = string.Empty // Omitir la contraseña 
             };
 
-            return Ok(accounts);
+            return Ok(account);
         }
 
 
