@@ -31,26 +31,11 @@ namespace TupPps.Controllers
             _userManager = userManager;
 
         }
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        [HttpGet]
-        [Route("accounts")]
-        public async Task<ActionResult<IEnumerable<AccountCreationDto>>> GetAccounts([FromQuery] string id)
-        {
-            var users = await _userManager.Users.ToListAsync();
-
-            var accounts = users.Select(u => new AccountCreationDto
-            {
-                //RoleId = u.RoleID, 
-                UserName = u.UserName,
-                //FirstName = u.FirstName,
-               // LastName = u.LastName,
-                Email = u.Email,
-                Password = string.Empty // Omitir la contraseña 
-            }).ToList();
-
-            return Ok(accounts);
-        }
-
+        /*
+         Se inserta el nuevo usuario en la base de datos y 
+        se genera un token JWT (Json Web Token) para el usuario registrado. 
+        El token JWT se devuelve como respuesta exitosa (200 OK).
+         */
         [HttpPost]
         [Route("signup")]
         public async Task<ActionResult<string>> RegisterUser(AccountCreationDto user)
@@ -59,6 +44,7 @@ namespace TupPps.Controllers
             {
                 Email = user.Email,
                 UserName = user.UserName,
+
 
             };
 
@@ -135,37 +121,35 @@ namespace TupPps.Controllers
             };
 
             return Ok(response);
-
-
         }
 
-        /*
-        // Endpoint para obtener todas las cuentas (solo accesible por el rol "Admin")
+
+
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet]
         [Route("accounts")]
-        public Action<IEnumerable<AccountCreationDto>> GetAccounts()
+        public async Task<ActionResult<IEnumerable<AccountCreationDto>>> GetAccounts([FromQuery] string id)
         {
-            // para obtener las cuentes
-            var users = _dbContext.Users.ToList();
+            var users = await _userManager.Users.ToListAsync();
 
-            // Mapear los usuarios a AccountCreationDto si es necesario
             var accounts = users.Select(u => new AccountCreationDto
             {
-                RoleId = 0, // Asignar el valor adecuado según tus requisitos
+                //RoleId = u.RoleID, 
                 UserName = u.UserName,
                 //FirstName = u.FirstName,
                 // LastName = u.LastName,
                 Email = u.Email,
-                Password = string.Empty // Omitir la contraseña si no es necesaria en este contexto
-            });
+                Password = string.Empty // Omitir la contraseña 
+            }).ToList();
+
             return Ok(accounts);
         }
+
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpDelete]
         [Route("accounts/{id}")]
-        public async ActionResult DeleteAccount([FromQuery] string id)
+        public async Task<ActionResult<string>> DeleteAccount([FromQuery] string id)
         {
 
             var account = await _userManager.FindByIdAsync(id);
@@ -177,7 +161,7 @@ namespace TupPps.Controllers
 
             var roles = await _userManager.GetRolesAsync(account);
 
-            if (!roles.Contains("Vendedor") && !roles.Contains("Cliente"))
+            if (roles.Contains("Vendedor") || roles.Contains("Cliente"))
             {
                 return BadRequest("No se cumple con los requisitos de borrarla");
             }
@@ -194,14 +178,8 @@ namespace TupPps.Controllers
                 return BadRequest(result.Errors);
             }
         }
-         */
 
-
-        /*
-         esta propiedad genera un token JWT válido para un usuario específico y 
-        lo devuelve como una cadena. El token puede ser utilizado para autenticar 
-        y autorizar al usuario en las solicitudes posteriores a la API.
-         */
+       
         [ApiExplorerSettings(IgnoreApi = true)]
         public string GenerateJwtToken([FromBody] IdentityUser user, [FromQuery] ICollection<string> roles)
         {
@@ -227,14 +205,10 @@ namespace TupPps.Controllers
                 expires: DateTime.Now.AddMinutes(720),
                 signingCredentials: credentials);
 
-            //var jwt = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
-
-            // return jwt;
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.WriteToken(tokenDescriptor);
 
             return token;
-
         }
 
         /*

@@ -22,6 +22,7 @@ namespace BussnessEntities
         [Required]
         public string Password { get; set; } = string.Empty;
     }
-}    
-       
+}
+
+
 
