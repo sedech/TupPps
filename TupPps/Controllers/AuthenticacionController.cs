@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using DataModels.Entities;
 
 namespace TupPps.Controllers
 {
@@ -20,12 +21,12 @@ namespace TupPps.Controllers
     public class AuthenticacionController : ControllerBase
     {
         private static readonly string SecretKey = "mi clave secretita";
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _config;
 
         // inyeccion de independencia
 
-        public AuthenticacionController(IConfiguration config, UserManager<IdentityUser> userManager)
+        public AuthenticacionController(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
             _config = config;
             _userManager = userManager;
@@ -40,13 +41,15 @@ namespace TupPps.Controllers
         [Route("signup")]
         public async Task<ActionResult<bool>> RegisterUser(AccountCreationDto user)
         {
-            var newUser = new IdentityUser()
+            var newUser = new ApplicationUser()
             {
-                Email = user.Email,
+                RoleId = user.RoleId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 UserName = user.UserName,
+                Email = user.Email
+            };    
 
-
-            };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
             if (result.Succeeded)
@@ -97,6 +100,9 @@ namespace TupPps.Controllers
             var userObject = new
             {
                 Id = user.Id,
+                RoleId = user.RoleId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 UserName = user.UserName,
                 Email = user.Email
             };
@@ -126,10 +132,10 @@ namespace TupPps.Controllers
 
             var accounts = new AccountCreationDto
             {
-                //RoleId = user.RoleId, 
+                RoleId = user.RoleId, 
                 UserName = user.UserName,
-                //FirstName = user.FirstName,
-                // LastName = user.LastName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email,
                 Password = string.Empty // Omitir la contraseña 
             };

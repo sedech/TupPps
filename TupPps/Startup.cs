@@ -2,6 +2,7 @@
 using BusnessService.Profiles;
 using BusnessService.Service;
 using DataModels.Context;
+using DataModels.Entities;
 using DataModels.Repositories.IRepository;
 using DataModels.Repositories.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -71,7 +72,7 @@ namespace TupPps
                     };
                 });
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+            builder.Services.AddIdentity< ApplicationUser, IdentityRole >(opt =>
             {
                 opt.Password.RequiredLength = 7;
                 opt.Password.RequireDigit = false;

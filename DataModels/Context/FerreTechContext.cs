@@ -9,7 +9,7 @@ namespace DataModels.Context
 {
 
 
-    public partial class FerreTechContext : IdentityDbContext<IdentityUser>
+    public partial class FerreTechContext : IdentityDbContext<ApplicationUser>
     {
         public FerreTechContext():base()
         {
@@ -22,7 +22,7 @@ namespace DataModels.Context
 
         public virtual DbSet<Account> Accounts { get; set; }
 
-        public virtual DbSet<IdentityUser> Users { get; set; }
+        public virtual DbSet<ApplicationUser> Users { get; set; }
 
         public virtual DbSet<Category> Categories { get; set; }
 
@@ -32,7 +32,7 @@ namespace DataModels.Context
 
         public virtual DbSet<OrderItem> OrderItems { get; set; }
 
-        public DbSet<Product> Products { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
 
         public virtual DbSet<Brand> Brands { get; set; }
 
