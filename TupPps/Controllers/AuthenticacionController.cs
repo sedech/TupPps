@@ -149,7 +149,7 @@ namespace TupPps.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpDelete]
         [Route("accounts/{id}")]
-        public async Task<ActionResult<string>> DeleteAccount([FromQuery] string id)
+        public async Task<ActionResult<string>> DeleteAccount(string id)
         {
 
             var account = await _userManager.FindByIdAsync(id);
