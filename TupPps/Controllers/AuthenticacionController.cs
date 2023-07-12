@@ -119,12 +119,13 @@ namespace TupPps.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet]
         [Route("AllAccounts")]
-        public async Task<ActionResult<IEnumerable<AccountCreationDto>>> GetAllAccounts([FromQuery] string id)
+        public async Task<ActionResult<IEnumerable<AccountCreationDto>>> GetAllAccounts()
         {
             var users = await _userManager.Users.ToListAsync();
 
             var accounts = users.Select(u => new AccountCreationDto
             {
+                Id = u.Id,
                 RoleId = u.RoleId,
                 UserName = u.UserName,
                 FirstName = u.FirstName,
@@ -138,7 +139,6 @@ namespace TupPps.Controllers
 
 
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet]
         [Route("account")]
         public async Task<ActionResult<AccountCreationDto>> GetAccount([FromQuery] string id)
@@ -152,6 +152,7 @@ namespace TupPps.Controllers
 
             var account = new AccountCreationDto
             {
+                Id = user.Id,
                 RoleId = user.RoleId, 
                 UserName = user.UserName,
                 FirstName = user.FirstName,
@@ -162,7 +163,6 @@ namespace TupPps.Controllers
 
             return Ok(account);
         }
-
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpDelete]
