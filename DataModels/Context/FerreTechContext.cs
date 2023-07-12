@@ -37,7 +37,8 @@ namespace DataModels.Context
         public virtual DbSet<Brand> Brands { get; set; }
 
         public virtual DbSet<Role> Roles { get; set; }
-
+        
+         // Melchisedech
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if(!optionsBuilder.IsConfigured)
@@ -45,7 +46,17 @@ namespace DataModels.Context
                 optionsBuilder.UseSqlServer("Server=SEDECH\\SQLEXPRESS;Database=FerreTechs;TrustServerCertificate=True;User=sa;Password=cayetano");
             }
         }
-           
+
+        /*
+        // Ignacio
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=DESKTOP-2HSK05T\\SQLEXPRESS;Database= FerreTechs; Trusted_Connection = True; Encrypt=False;");
+            }
+        }*/
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
