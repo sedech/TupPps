@@ -138,7 +138,7 @@ namespace TupPps.Controllers
 
 
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        
         [HttpGet]
         [Route("account")]
         public async Task<ActionResult<AccountCreationDto>> GetAccount([FromQuery] string id)
@@ -179,33 +179,33 @@ namespace TupPps.Controllers
 
             var roles = await _userManager.GetRolesAsync(account);
 
-            if (roles.Contains("Vendedor") || roles.Contains("Cliente"))
+            if (!roles.Contains("Admin"))
             {
-                return BadRequest("No se cumple con los requisitos de borrarla");
+                return Ok(new { success = false, message = "No estás autorizado para eliminar esta cuenta." });
             }
 
-            // borrar si cumple los requisitos
             var result = await _userManager.DeleteAsync(account);
 
             if (result.Succeeded)
             {
-                return Ok();
+                return Ok(new { success = true, message = "La cuenta se eliminó correctamente." });
             }
             else
             {
-                return BadRequest(result.Errors);
+                return Ok(new { success = false, message = "No se pudo eliminar la cuenta." });
             }
         }
 
        
         [ApiExplorerSettings(IgnoreApi = true)]
-        public string GenerateJwtToken([FromBody] IdentityUser user, [FromQuery] ICollection<string> roles)
+        public string GenerateJwtToken([FromBody] ApplicationUser user, [FromQuery] ICollection<string> roles)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Sid, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim("RoleId", user.RoleId.ToString())
 
             };
 
