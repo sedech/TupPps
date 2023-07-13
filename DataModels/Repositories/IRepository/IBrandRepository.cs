@@ -12,7 +12,8 @@ namespace DataModels.Repositories.IRepository
             Task<Int64> Create(Brand entity);
             Task<Boolean> Update(Brand entity);
             Task<Brand> GetById(int id);
-          
+            Task<IEnumerable<Brand>> GetAll(int id);
+
     }
 }
         

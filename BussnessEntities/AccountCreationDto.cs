@@ -10,9 +10,6 @@ namespace BussnessEntities
     public class AccountCreationDto
     {
         
-        public string Id { get; set; } = string.Empty;
-        
-        [Required]
         public Int64 RoleId { get; set; }
         [Required]
         [MaxLength(100)]

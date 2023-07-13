@@ -62,6 +62,14 @@ namespace TupPps.Controllers
             return Ok(await _categoryService.Update(category));
         }
 
-        
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllProducts([FromQuery] int state)
+        {
+            var categories = await _categoryService.GetAll(state);
+            return Ok(categories);
+        }
+
+
     }
 }

@@ -46,7 +46,13 @@ namespace BusnessService.Service
 
         }
 
-        
+        public async Task<IEnumerable<OrderBe>> GetAll(int state)
+        {
+            var orders = await _repo.GetAll(state);
+            return _maapper.Map<IEnumerable<OrderBe>>(orders);
+        }
+
+
 
     }
 }

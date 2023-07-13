@@ -65,6 +65,12 @@ namespace DataModels.Repositories.Repository
             return true;
         }
 
-        
+        public async Task<IEnumerable<Brand>> GetAll(int id)
+        {
+            var entities = await _context.Brands.Where(u => u.Id == id).ToListAsync();
+            return entities;
+        }
+
+
     }
 }

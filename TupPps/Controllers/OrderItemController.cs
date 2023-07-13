@@ -68,7 +68,14 @@ namespace TupPps.Controllers
             return Ok(await _orderItemService.Update(orderItem));
         }
 
-        
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrderItems([FromQuery] int state)
+        {
+            var orderItems = await _orderItemService.GetAll(state);
+            return Ok(orderItems);
+        }
+
+
 
     }
 }

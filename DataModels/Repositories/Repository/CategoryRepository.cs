@@ -58,7 +58,11 @@ namespace DataModels.Repositories.Repository
             return true;
         }
 
-      
+        public async Task<IEnumerable<Category>> GetAll(int id)
+        {
+            var entities = await _context.Categories.Where(u => u.Id == id).ToListAsync();
+            return entities;
+        }
 
     }
 }
