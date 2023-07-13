@@ -61,5 +61,7 @@ namespace TupPps.Controllers
         {
             return Ok(await _categoryService.Update(category));
         }
+
+        
     }
 }

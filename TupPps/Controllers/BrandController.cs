@@ -1,4 +1,5 @@
 ﻿using BusnessService.IService;
+using BusnessService.Service;
 using BussnessEntities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -60,5 +61,7 @@ namespace TupPps.Controllers
         {
             return Ok(await _brandService.Update(brand));
         }
+
+        
     }
 }

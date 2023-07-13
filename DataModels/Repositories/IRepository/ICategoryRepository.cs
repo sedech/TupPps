@@ -12,6 +12,7 @@ namespace DataModels.Repositories.IRepository
         Task<Int64> Create(Category entity);
         Task<Boolean> Update(Category entity);
         Task<Category> GetById(int id);
+      
     }
 }
     

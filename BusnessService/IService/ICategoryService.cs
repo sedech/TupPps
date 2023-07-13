@@ -13,7 +13,8 @@ namespace BusnessService.IService
         Task<long> Create(CategoryToCreateBe entity);
         Task<bool> Update(CategoryBe entity);
         Task<CategoryBe> GetById(int id);
-     }
+ 
+    }
 }
    
     

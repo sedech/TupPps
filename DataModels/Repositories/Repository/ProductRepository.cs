@@ -54,11 +54,12 @@ namespace DataModels.Repositories.Repository
             }
         }
 
-        public async Task<IEnumerable<Product>> GetAll(int State, string Name)
+        public async Task<IEnumerable<Product>> GetAll(int id)
         {
-            var entities = _context.Products.Where(u => u.State == State && (u.Name == Name || string.IsNullOrEmpty(Name)));
+            var entities = await _context.Products.Where(u => u.Id == id).ToListAsync();
             return entities;
         }
+
 
         public async Task<Product> GetById(int id)
         {

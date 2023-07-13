@@ -44,5 +44,11 @@ namespace BusnessService.Service
             return await _repo.Update(result);
 
         }
+
+        public async Task<IEnumerable<ProductBe>> GetAll(int state)
+        {
+            var products = await _repo.GetAll(state);
+            return _maapper.Map<IEnumerable<ProductBe>>(products);
+        }
     }
 }
