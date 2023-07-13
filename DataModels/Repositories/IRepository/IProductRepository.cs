@@ -13,8 +13,9 @@ namespace DataModels.Repositories.IRepository
         Task<Boolean> Update(Product entity);
         Task<Boolean> Delete(int id);
         Task<Product> GetById(int id);
-        Task<IEnumerable<Product>> GetAll(int id);
-        
+        Task<IEnumerable<Product>> GetAll();
+
+
     }
 
 }    

@@ -25,7 +25,7 @@ namespace TupPps.Controllers
         y devuelve una respuesta exitosa (200 OK) con el resultado de la creación del producto.
          */
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct( ProductToCreateBe product)
         {
@@ -66,7 +66,7 @@ namespace TupPps.Controllers
         devuelve una respuesta exitosa (200 OK) con el resultado de la actualización del producto.
          */
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateProduct([FromBody] ProductBe product)
         {
@@ -74,12 +74,16 @@ namespace TupPps.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
+     
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts([FromQuery] int state)
+        [Route("AllProducts")]
+        public async Task<ActionResult<IEnumerable<ProductBe>>> GetAllProducts()
         {
-            var products = await _productService.GetAll(state);
+            var products = await _productService.GetAll();
+
             return Ok(products);
         }
+
 
     }
 }

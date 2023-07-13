@@ -13,6 +13,7 @@ namespace DataModels.Repositories.Repository
     public class ProductRepository : IProductRepository
     {
         private readonly FerreTechContext _context;
+
         public ProductRepository(FerreTechContext context)
         {
             _context = context;
@@ -44,34 +45,30 @@ namespace DataModels.Repositories.Repository
                     throw new Exception("No existe producto para ese id");
 
                 _context.Products.Remove(entity);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
 
-        public async Task<IEnumerable<Product>> GetAll(int id)
+        public async Task<IEnumerable<Product>> GetAll()
         {
-            var entities = await _context.Products.Where(u => u.Id == id).ToListAsync();
+            var entities = await _context.Products.ToListAsync();
             return entities;
         }
-
 
         public async Task<Product> GetById(int id)
         {
             try
             {
                 var entity = await _context.Products.SingleOrDefaultAsync(u => u.Id == id);
-
                 return entity;
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
@@ -88,8 +85,8 @@ namespace DataModels.Repositories.Repository
             prod.Stock = entity.Stock;
             prod.PriceSales = entity.PriceSales;
             prod.Img = entity.Img;
-            
 
+            await _context.SaveChangesAsync();
             return true;
         }
     }

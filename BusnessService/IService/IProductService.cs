@@ -15,8 +15,9 @@ namespace BusnessService.IService
         Task<bool> Update(ProductBe entity);
         Task<bool> Delete(int id);
         Task<ProductBe> GetById(int id);
-        Task<IEnumerable<ProductBe>> GetAll(int id);
-    }   
+        Task<IEnumerable<ProductBe>> GetAll();
+
+    }
 }    
 
 
