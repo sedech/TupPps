@@ -30,7 +30,7 @@ namespace DataModels.Repositories.Repository
             }
         }
 
-       
+
         public async Task<Category> GetById(int id)
         {
             try
@@ -54,7 +54,7 @@ namespace DataModels.Repositories.Repository
 
             cate.Name = entity.Name;
             //cate.Description = entity.Description;
-       
+
             return true;
         }
 

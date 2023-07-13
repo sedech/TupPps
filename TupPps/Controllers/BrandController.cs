@@ -62,11 +62,13 @@ namespace TupPps.Controllers
             return Ok(await _brandService.Update(brand));
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
+        
         [HttpGet]
-        public async Task<IActionResult> GetAllBrands([FromQuery] int state)
+        [Route("AllBrands")]
+        public async Task<ActionResult<IEnumerable<BrandBe>>> GetAllBrands()
         {
-            var brands = await _brandService.GetAll(state);
+            var brands = await _brandService.GetAll();
+
             return Ok(brands);
         }
 

@@ -41,9 +41,9 @@ namespace BusnessService.Service
 
         }
 
-        public async Task<IEnumerable<BrandBe>> GetAll(int state)
+        public async Task<IEnumerable<BrandBe>> GetAll()
         {
-            var brands = await _repo.GetAll(state);
+            var brands = await _repo.GetAll();
             return _maapper.Map<IEnumerable<BrandBe>>(brands);
         }
 

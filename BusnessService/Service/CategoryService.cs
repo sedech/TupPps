@@ -13,10 +13,10 @@ namespace BusnessService.Service
 {
     public class CategoryService : ICategoryService
     {
-      private readonly ICategoryRepository _repo;
-      private readonly IMapper _maapper;
+        private readonly ICategoryRepository _repo;
+        private readonly IMapper _maapper;
 
-      public CategoryService(ICategoryRepository repo, IMapper maapper)
+        public CategoryService(ICategoryRepository repo, IMapper maapper)
         {
             _repo = repo;
             _maapper = maapper;
@@ -28,7 +28,7 @@ namespace BusnessService.Service
             return await _repo.Create(result);
         }
 
-        
+
         public async Task<CategoryBe> GetById(int id)
         {
             return _maapper.Map<CategoryBe>(await _repo.GetById(id));
