@@ -24,7 +24,7 @@ namespace TupPps.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _config;
 
-        // inyeccion de independencia
+        // inyeccion de independencias
 
         public AuthenticacionController(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
@@ -33,10 +33,11 @@ namespace TupPps.Controllers
 
         }
         /*
-         Se inserta el nuevo usuario en la base de datos y 
-        se genera un token JWT (Json Web Token) para el usuario registrado. 
-        El token JWT se devuelve como respuesta exitosa (200 OK).
+         se encarga de crear un nuevo usuario en la base de datos y 
+        asignarle un rol específico según el valor del campo RoleId proporcionado.
          */
+         
+
         [HttpPost]
         [Route("signup")]
         public async Task<ActionResult<bool>> RegisterUser(AccountCreationDto user)
@@ -81,7 +82,12 @@ namespace TupPps.Controllers
             
         }
 
-        
+        /*
+         permite a los usuarios iniciar sesión en el sistema. Si la autenticación es exitosa, 
+        se genera un token de acceso JWT y se devuelve junto con los detalles del usuario. 
+        El token JWT se utiliza para autorizar y realizar solicitudes posteriores que requieren autenticación
+         */
+
         [HttpPost]
         [Route("login")]
         public async Task<ActionResult<object>> Login(AuthLogin request)
@@ -116,6 +122,11 @@ namespace TupPps.Controllers
             return Ok(response);
         }
 
+        /*
+         se utiliza para obtener una lista de todas las cuentas de usuario registradas en el sistema
+         solo los Admin tienen accesos
+         */
+
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet]
         [Route("AllAccounts")]
@@ -138,8 +149,10 @@ namespace TupPps.Controllers
         }
 
 
+        /*
+         se utiliza para obtener información detallada de una cuenta de usuario específica según su ID
+         */
 
-        
         [HttpGet]
         [Route("account")]
         public async Task<ActionResult<AccountCreationDto>> GetAccount([FromQuery] string id)
@@ -165,6 +178,11 @@ namespace TupPps.Controllers
             return Ok(account);
         }
 
+        /*
+         se utiliza para eliminar una cuenta de usuario específica en el sistema.
+            solo los Admin tienen acceso 
+         */
+
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpDelete]
         [Route("accounts/{id}")]
@@ -177,14 +195,8 @@ namespace TupPps.Controllers
             {
                 return NotFound();
             }
-
-            var roles = await _userManager.GetRolesAsync(account);
-
-            if (!roles.Contains("Admin"))
-            {
-                return Ok(new { success = false, message = "No estás autorizado para eliminar esta cuenta." });
-            }
-
+          
+            
             var result = await _userManager.DeleteAsync(account);
 
             if (result.Succeeded)
@@ -197,7 +209,12 @@ namespace TupPps.Controllers
             }
         }
 
-       
+        /*
+         este método toma un usuario autenticado y una colección de roles, y genera un token JWT 
+        que contiene la información del usuario y los roles. El token se utiliza para autenticar 
+        y autorizar al usuario en solicitudes posteriores
+         */
+
         [ApiExplorerSettings(IgnoreApi = true)]
         public string GenerateJwtToken([FromBody] ApplicationUser user, [FromQuery] ICollection<string> roles)
         {
@@ -231,12 +248,7 @@ namespace TupPps.Controllers
         }
 
         /*
-         esta propiedad toma una contraseña sin cifrar, la convierte en un hash utilizando el algoritmo MD5 
-        y luego compara el hash generado con una contraseña cifrada existente. 
-        Si los hashes coinciden, esto implica que las contraseñas coinciden y 
-        se devuelve true. Si los hashes no coinciden, se devuelve false. 
-        Este método es comúnmente utilizado en escenarios de autenticación y 
-        verificación de contraseñas. 
+          verificacion de contraseña  (cifrada) utilizando el algoritmo MD5.
          */
         private static bool CompareHashes(string password, string hashedPassword)
         {

@@ -12,7 +12,8 @@ namespace BusnessService.IService
     {
         Task<long> Create(CategoryToCreateBe entity);
         Task<bool> Update(CategoryBe entity);
-        Task<List<CategoryBe>> GetAll(int state, string name);
         Task<CategoryBe> GetById(int id);
-    }
+     }
 }
+   
+    

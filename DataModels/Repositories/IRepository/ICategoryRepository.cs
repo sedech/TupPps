@@ -11,7 +11,8 @@ namespace DataModels.Repositories.IRepository
     {
         Task<Int64> Create(Category entity);
         Task<Boolean> Update(Category entity);
-        Task<IEnumerable<Category>> GetAll(int state, string name);
         Task<Category> GetById(int id);
     }
 }
+    
+ 

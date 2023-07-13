@@ -32,12 +32,7 @@ namespace BusnessService.Service
             return _repo.Delete(id);
         }
 
-        public async Task<List<ProductBe>> GetAll(int state, string name)
-        {
-            var entities = await _repo.GetAll(state, name);
-            return  _maapper.Map<List<ProductBe>>(entities);
-        }
-
+        
         public async Task<ProductBe> GetById(int id)
         {
             return  _maapper.Map<ProductBe>(await _repo.GetById(id));

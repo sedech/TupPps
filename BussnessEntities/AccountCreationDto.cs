@@ -9,8 +9,9 @@ namespace BussnessEntities
 {
     public class AccountCreationDto
     {
-        [Required]
+        
         public string Id { get; set; } = string.Empty;
+        
         [Required]
         public Int64 RoleId { get; set; }
         [Required]

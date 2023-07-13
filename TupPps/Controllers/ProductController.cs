@@ -20,19 +20,6 @@ namespace TupPps.Controllers
 
 
         /*
-         permite obtener todos los productos. Toma dos parámetros opcionales: state (estado del producto) y name (nombre del producto). 
-        Llama al método GetAll del servicio de productos (IProductService) pasando estos parámetros 
-        y devuelve una respuesta exitosa (200 OK) con una lista de productos obtenidos.
-         */
-
-        [HttpGet]
-        public async Task<IActionResult> GetAllProductAsync(int state = 1, string name = "")
-        {
-            List<ProductBe> producto = await this._productService.GetAll(state, name);
-            return Ok(producto);
-        }
-
-        /*
          permite crear un nuevo producto. Recibe un objeto ProductToCreateBe en el cuerpo de la solicitud que contiene 
         los datos del producto a crear. Llama al método Create del servicio de productos pasando este objeto
         y devuelve una respuesta exitosa (200 OK) con el resultado de la creación del producto.
@@ -63,6 +50,8 @@ namespace TupPps.Controllers
         Llama al método GetById del servicio de productos pasando este ID 
         y devuelve una respuesta exitosa (200 OK) con los detalles del producto obtenido.
          */
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
         [HttpGet]
         [Route("getProduct/{IdProduct}")]
         public async Task<IActionResult> GetProduct(int IdProduct)
@@ -77,6 +66,7 @@ namespace TupPps.Controllers
         devuelve una respuesta exitosa (200 OK) con el resultado de la actualización del producto.
          */
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
         [HttpPut]
         public async Task<IActionResult> UpdateProduct([FromBody] ProductBe product)
         {
