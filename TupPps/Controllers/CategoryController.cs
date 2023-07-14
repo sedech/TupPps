@@ -20,7 +20,7 @@ namespace TupPps.Controllers
             this._categoryService = categoryService;
         }
 
-        
+
         /*
           permite crear una nueva categoría. Recibe un objeto CategoryToCreateBe en el cuerpo de la solicitud. 
        Llama al método Create del servicio de categorías pasando este objeto y
