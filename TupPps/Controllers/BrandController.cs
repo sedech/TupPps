@@ -39,7 +39,7 @@ namespace TupPps.Controllers
         y devuelve una respuesta exitosa (200 OK) con los detalles de la marca obtenida.
          */
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
         [HttpGet]
         [Route("getBrand/{IdBrand}")]
         public async Task<IActionResult> GetBrand(int IdBrand)
@@ -62,7 +62,7 @@ namespace TupPps.Controllers
             return Ok(await _brandService.Update(brand));
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
         [HttpGet]
         public async Task<IActionResult> GetAllBrands([FromQuery] int state)
         {

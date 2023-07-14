@@ -25,7 +25,7 @@ namespace TupPps.Controllers
         y devuelve una respuesta exitosa (200 OK) con el resultado de la creación del producto.
          */
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Vendedor")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct( ProductToCreateBe product)
         {
@@ -38,7 +38,7 @@ namespace TupPps.Controllers
         devuelve una respuesta exitosa (200 OK) con el resultado de la eliminación del producto.
          */
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Vendedor")]
         [HttpDelete]
         public async Task<IActionResult> DeleteProduct([FromQuery] int IdProduct)
         {
@@ -51,7 +51,7 @@ namespace TupPps.Controllers
         y devuelve una respuesta exitosa (200 OK) con los detalles del producto obtenido.
          */
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
         [HttpGet]
         [Route("getProduct/{IdProduct}")]
         public async Task<IActionResult> GetProduct(int IdProduct)
@@ -66,14 +66,14 @@ namespace TupPps.Controllers
         devuelve una respuesta exitosa (200 OK) con el resultado de la actualización del producto.
          */
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Vendedor")]
         [HttpPut]
         public async Task<IActionResult> UpdateProduct([FromBody] ProductBe product)
         {
             return Ok(await _productService.Update(product));
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
      
         [HttpGet]
         [Route("AllProducts")]

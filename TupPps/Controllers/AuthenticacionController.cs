@@ -136,7 +136,7 @@ namespace TupPps.Controllers
 
             var accounts = users.Select(u => new AccountCreationDto
             {
-                
+                Id = u.Id,
                 RoleId = u.RoleId,
                 UserName = u.UserName,
                 FirstName = u.FirstName,
@@ -166,7 +166,7 @@ namespace TupPps.Controllers
 
             var account = new AccountCreationDto
             {
-                
+                Id = user.Id,
                 RoleId = user.RoleId, 
                 UserName = user.UserName,
                 FirstName = user.FirstName,
