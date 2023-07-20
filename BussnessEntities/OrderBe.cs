@@ -3,15 +3,8 @@
     public class OrderBe:EntityBaseBe
     {
 
-        public Int64 ProductId { get; set; }
-        public Int64 AccountId { get; set; }
+        public required string UserId { get; set; }
+        public Int64 OrderItemId { get; set; }
         public float Total { get; set; }
-
-      
-        public AccountBe Account { get; set; }
-
-        public List<OrderItemBe> Items { get; set; }
-
-       
     }
 }

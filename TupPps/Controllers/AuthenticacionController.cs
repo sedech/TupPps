@@ -40,7 +40,7 @@ namespace TupPps.Controllers
 
         [HttpPost]
         [Route("signup")]
-        public async Task<ActionResult<bool>> RegisterUser(AccountCreationDto user)
+        public async Task<ActionResult<bool>> RegisterUser(UserCreationDto user)
         {
             var newUser = new ApplicationUser()
             {
@@ -130,13 +130,13 @@ namespace TupPps.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet]
         [Route("AllAccounts")]
-        public async Task<ActionResult<IEnumerable<AccountCreationDto>>> GetAllAccounts()
+        public async Task<ActionResult<IEnumerable<UserCreationDto>>> GetAllAccounts()
         {
             var users = await _userManager.Users.ToListAsync();
 
-            var accounts = users.Select(u => new AccountCreationDto
+            var accounts = users.Select(u => new UserCreationDto
             {
-                Id = u.Id,
+                UserId = u.Id,
                 RoleId = u.RoleId,
                 UserName = u.UserName,
                 FirstName = u.FirstName,
@@ -155,7 +155,7 @@ namespace TupPps.Controllers
 
         [HttpGet]
         [Route("account")]
-        public async Task<ActionResult<AccountCreationDto>> GetAccount([FromQuery] string id)
+        public async Task<ActionResult<UserCreationDto>> GetAccount([FromQuery] string id)
         {
             var user = await _userManager.FindByIdAsync(id);
 
@@ -164,9 +164,9 @@ namespace TupPps.Controllers
                 return NotFound();
             }
 
-            var account = new AccountCreationDto
+            var account = new UserCreationDto
             {
-                Id = user.Id,
+                UserId = user.Id,
                 RoleId = user.RoleId, 
                 UserName = user.UserName,
                 FirstName = user.FirstName,

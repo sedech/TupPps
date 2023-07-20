@@ -1,9 +1,9 @@
 ﻿
 namespace DataModels.Entities
 {
-    public class Account:EntityBase
+    public class Account : EntityBase
     {
-      
+
         public Int64 RoleId { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -11,8 +11,8 @@ namespace DataModels.Entities
         public string Password { get; set; }
 
         public Role Role { get; set; }
-        
 
-       
+
+
     }
 }
