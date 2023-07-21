@@ -20,8 +20,6 @@ namespace DataModels.Context
         {
         }
 
-       
-
         public virtual DbSet<ApplicationUser> Users { get; set; }
 
         public virtual DbSet<Category> Categories { get; set; }
@@ -65,9 +63,7 @@ namespace DataModels.Context
             base.OnModelCreating(modelBuilder);
 
             //setear roles de usuario
-            
-            //
-
+   
             string ADMIN_ROLE = "341743f0-asd2–42de-afbf-59kmkkmk72cf6";
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
             {
@@ -112,7 +108,7 @@ namespace DataModels.Context
             new ProductConfiguration(modelBuilder.Entity<Product>());
             new RoleConfiguration(modelBuilder.Entity<Role>());
         }
-
-
     }
 }
+
+
