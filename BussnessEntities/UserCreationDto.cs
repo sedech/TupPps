@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace BussnessEntities
 {
-    public class AccountCreationDto
+    public class UserCreationDto
     {
-        public string Id { get; set; } = string.Empty;
+        public string UserId { get; set; } = string.Empty;
         public Int64 RoleId { get; set; }
         [Required]
         [MaxLength(100)]

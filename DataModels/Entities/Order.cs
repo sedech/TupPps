@@ -4,16 +4,11 @@ namespace DataModels.Entities
 {
     public class Order:EntityBase
     {
-        
-        
-        public Int64 AccountId { get; set; }
+
+
+        public required string UserId { get; set; }
+        public Int64 OrderItemId { get; set; }
         public float Total { get; set; }
 
-        
-        public Account Account { get; set; }
-
-        public List<OrderItem> OrderItems { get; set; }
-
-       
     }
 }

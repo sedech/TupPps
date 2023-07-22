@@ -20,8 +20,6 @@ namespace DataModels.Context
         {
         }
 
-        public virtual DbSet<Account> Accounts { get; set; }
-
         public virtual DbSet<ApplicationUser> Users { get; set; }
 
         public virtual DbSet<Category> Categories { get; set; }
@@ -37,37 +35,35 @@ namespace DataModels.Context
         public virtual DbSet<Brand> Brands { get; set; }
 
         public virtual DbSet<Role> Roles { get; set; }
-        
-         // Melchisedech
-         /*
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if(!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=SEDECH\\SQLEXPRESS;Database=FerreTechs;TrustServerCertificate=True;User=sa;Password=cayetano");
-            }
-        }*/
 
-        
-        // Ignacio
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-2HSK05T\\SQLEXPRESS;Database= FerreTechs; Trusted_Connection = True; Encrypt=False;");
-            }
+        // Melchisedech
+   
+       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+       {
+           if(!optionsBuilder.IsConfigured)
+           {
+               optionsBuilder.UseSqlServer("Server=SEDECH\\SQLEXPRESS;Database=FerreTechs;TrustServerCertificate=True;User=sa;Password=cayetano");
+           }
         }
 
+        /* 
+         // Ignacio
+         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+         {
+             if (!optionsBuilder.IsConfigured)
+             {
+                 optionsBuilder.UseSqlServer("Server=DESKTOP-2HSK05T\\SQLEXPRESS;Database= FerreTechs; Trusted_Connection = True; Encrypt=False;");
+             }
+         }
 
+     */
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             //setear roles de usuario
-            
-            //
-
+   
             string ADMIN_ROLE = "341743f0-asd2–42de-afbf-59kmkkmk72cf6";
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
             {
@@ -103,7 +99,7 @@ namespace DataModels.Context
 
         private void ModelConfig(ModelBuilder modelBuilder)
         {
-            new AccountConfiguration(modelBuilder.Entity<Account>());
+            
             new BrandConfiguration(modelBuilder.Entity<Brand>());
             new CategoryConfiguration(modelBuilder.Entity<Category>());
             new HistoryPriceConfiguration(modelBuilder.Entity<HistoryPrice>());
@@ -112,7 +108,7 @@ namespace DataModels.Context
             new ProductConfiguration(modelBuilder.Entity<Product>());
             new RoleConfiguration(modelBuilder.Entity<Role>());
         }
-
-
     }
 }
+
+

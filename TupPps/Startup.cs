@@ -84,9 +84,6 @@ namespace TupPps
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
 
-            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-            builder.Services.AddScoped<IAccountService, AccountService>();
-
             builder.Services.AddScoped<IBrandRepository, BrandRepository>();
             builder.Services.AddScoped<IBrandService, BrandService>();
 
@@ -99,7 +96,7 @@ namespace TupPps
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 
-
+            
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -110,8 +107,7 @@ namespace TupPps
                 });
             builder.Services.AddAutoMapper(typeof(FerreTechMapperProfile));
 
-
-        }
+        }    
 
 
         private static void Configure(WebApplication app)
@@ -132,3 +128,6 @@ namespace TupPps
         }
     }
 }
+
+
+        
