@@ -80,10 +80,12 @@ namespace DataModels.Repositories.Repository
             return true;
         }
 
-        public async Task<IEnumerable<Order>> GetAll(int id)
+        public async Task<IEnumerable<Order>> GetAll()
         {
-            var entities = await _context.Orders.Where(u => u.Id == id).ToListAsync();
+            var entities = await _context.Orders.ToListAsync();
             return entities;
         }
+
+      
     }
 }

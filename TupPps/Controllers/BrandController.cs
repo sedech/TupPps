@@ -63,13 +63,10 @@ namespace TupPps.Controllers
         }
 
 
-<<<<<<< HEAD
-=======
+
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Vendedor")]
 
-        
 
->>>>>>> 7b65ab78ebbad22932fa2a5685fe7b8b7ef735b8
         [HttpGet]
         [Route("AllBrands")]
         public async Task<ActionResult<IEnumerable<BrandBe>>> GetAllBrands()

@@ -13,7 +13,8 @@ namespace BusnessService.IService
         Task<bool> Update(OrderBe entity);
         Task<bool> Delete(int id);
         Task<OrderBe> GetById(int id);
-        Task<IEnumerable<OrderBe>> GetAll(int id);
+        Task<IEnumerable<OrderBe>> GetAll();
+      
 
     }
 }

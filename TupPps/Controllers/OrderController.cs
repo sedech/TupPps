@@ -67,9 +67,10 @@ namespace TupPps.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllOrders([FromQuery] int state)
+        [Route("AllOrders")]
+        public async Task<ActionResult<IEnumerable<IActionResult>>> GetAllOrders()
         {
-            var orders = await _orderService.GetAll(state);
+            var orders = await _orderService.GetAll();
             return Ok(orders);
         }
 
