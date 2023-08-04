@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataModels.Repositories.Repository
 {
-    public class OrderRepository : IOrderRepository 
+    public class OrderRepository : IOrderRepository
     {
         private readonly FerreTechContext _context;
         public OrderRepository(FerreTechContext context)
@@ -74,8 +74,8 @@ namespace DataModels.Repositories.Repository
             var ord = await _context.Orders.FindAsync(entity.Id);
             if (ord == null)
                 throw new Exception("No se pudo actualizar este order");
-                ord.UserId = entity.Id.ToString(); ;
-                ord.Total = entity.Total;
+            ord.UserId = entity.Id.ToString(); ;
+            ord.Total = entity.Total;
 
             return true;
         }
@@ -86,6 +86,9 @@ namespace DataModels.Repositories.Repository
             return entities;
         }
 
-      
+        public async Task<IEnumerable<OrderItem>> GetByOrderId(int OrderId)
+        {
+            return await _context.OrderItems.Where(item => item.OrderId == OrderId).ToListAsync();
+        }
     }
 }

@@ -14,7 +14,9 @@ namespace DataModels.Repositories.IRepository
         Task<Boolean> Delete(int id);
         Task<OrderItem> GetById(int id);
         Task<IEnumerable<OrderItem>> GetAll();
-       
+        Task<IEnumerable<OrderItem>> GetByOrderId(int OrderId);
+
+
     }
 }
 
