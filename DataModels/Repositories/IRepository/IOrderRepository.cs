@@ -13,7 +13,7 @@ namespace DataModels.Repositories.IRepository
         Task<Boolean> Update(Order entity);
         Task<Boolean> Delete(int id);
         Task<Order> GetById(int id);
-        Task<IEnumerable<Order>> GetAll(int id);
-
+        Task<IEnumerable<Order>> GetAll();
+        
     }
 }

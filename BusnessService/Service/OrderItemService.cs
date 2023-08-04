@@ -47,13 +47,11 @@ namespace BusnessService.Service
 
         }
 
-        public async Task<IEnumerable<OrderItemBe>> GetAll(int state)
+        public async Task<IEnumerable<OrderItemBe>> GetAll()
         {
-            var orderItems = await _repo.GetAll(state);
+            var orderItems = await _repo.GetAll();
             return _maapper.Map<IEnumerable<OrderItemBe>>(orderItems);
         }
-
-
 
     }
 }
