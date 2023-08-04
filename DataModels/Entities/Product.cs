@@ -19,5 +19,6 @@ namespace DataModels.Entities
 
 
         public List<HistoryPrice>? HistoryPrices { get; set; }
+
     }
 }

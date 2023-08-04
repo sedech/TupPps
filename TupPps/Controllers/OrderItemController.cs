@@ -76,5 +76,12 @@ namespace TupPps.Controllers
             return Ok(orderItems);
         }
 
+        [HttpGet]
+        [Route("GetByOrderId/{OrderId}")]
+        public async Task<IActionResult> GetByOrderId(int OrderId)
+        {
+            var orderItems = await _orderItemService.GetByOrderId(OrderId);
+            return Ok(orderItems);
+        }
     }
 }

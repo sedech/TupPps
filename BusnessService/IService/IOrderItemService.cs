@@ -14,6 +14,9 @@ namespace BusnessService.IService
         Task<bool> Delete(int id);
         Task<OrderItemBe> GetById(int id);
         Task<IEnumerable<OrderItemBe>> GetAll();
-        
+        Task<IEnumerable<OrderItemBe>> GetByOrderId(int OrderId);
+
     }
 }
+
+

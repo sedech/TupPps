@@ -3,6 +3,7 @@ using BusnessService.IService;
 using BussnessEntities;
 using DataModels.Entities;
 using DataModels.Repositories.IRepository;
+using DataModels.Repositories.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,5 +54,12 @@ namespace BusnessService.Service
             return _maapper.Map<IEnumerable<OrderItemBe>>(orderItems);
         }
 
+        public async Task<IEnumerable<OrderItemBe>> GetByOrderId(int OrderId)
+        {
+            var result = await _repo.GetByOrderId(OrderId);
+            return _maapper.Map<IEnumerable<OrderItemBe>>(result);
+        }
+
+        
     }
 }
