@@ -37,16 +37,16 @@ namespace DataModels.Context
         public virtual DbSet<Role> Roles { get; set; }
 
         // BDsedech
-   
+   /*
        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
        {
            if(!optionsBuilder.IsConfigured)
            {
                optionsBuilder.UseSqlServer("Server=SEDECH\\SQLEXPRESS;Database=FerreTechs;TrustServerCertificate=True;User=sa;Password=cayetano");
            }
-        }
+        }*/
 
-        /* 
+        
          // Ignacio
          protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
          {
@@ -56,7 +56,7 @@ namespace DataModels.Context
              }
          }
 
-     */
+     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

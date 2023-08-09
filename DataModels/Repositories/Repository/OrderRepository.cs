@@ -86,9 +86,14 @@ namespace DataModels.Repositories.Repository
             return entities;
         }
 
-        public async Task<IEnumerable<OrderItem>> GetByOrderId(int OrderId)
+        //public async Task<IEnumerable<OrderItem>> GetByOrderId(int OrderId)
+        //{
+         //   return await _context.OrderItems.Where(item => item.OrderId == OrderId).ToListAsync();
+        //}
+
+        public async Task<IEnumerable<Order>> GetByUserId(string UserId)
         {
-            return await _context.OrderItems.Where(item => item.OrderId == OrderId).ToListAsync();
+            return await _context.Orders.Where(item => item.UserId == UserId).ToListAsync();
         }
     }
 }

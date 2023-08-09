@@ -52,6 +52,12 @@ namespace BusnessService.Service
             return _maapper.Map<IEnumerable<OrderBe>>(orders);
         }
 
-      
+        public async Task<IEnumerable<OrderBe>> GetByUserId(string userId)
+        {
+            var orders = await _repo.GetByUserId(userId);
+            return _maapper.Map<IEnumerable<OrderBe>>(orders);
+        }
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BusnessService.IService;
 using BusnessService.Service;
 using BussnessEntities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace TupPps.Controllers
         devuelve una respuesta exitosa (200 OK) con el resultado de la creación del pedido.
          */
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Cliente")]
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] OrderBe product)
         {
@@ -71,6 +73,14 @@ namespace TupPps.Controllers
         public async Task<ActionResult<IEnumerable<IActionResult>>> GetAllOrders()
         {
             var orders = await _orderService.GetAll();
+            return Ok(orders);
+        }
+
+        [HttpGet]
+        [Route("GetOrdersByUserId")]
+        public async Task<IActionResult> GetOrdersByUserId(string userId)
+        {
+            var orders = await _orderService.GetByUserId(userId);
             return Ok(orders);
         }
 

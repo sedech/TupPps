@@ -1,4 +1,5 @@
 ﻿using DataModels.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,6 @@ namespace DataModels.Repositories.IRepository
         Task<Boolean> Delete(int id);
         Task<Order> GetById(int id);
         Task<IEnumerable<Order>> GetAll();
-        
+        Task<IEnumerable<Order>> GetByUserId(string userId);
     }
 }
